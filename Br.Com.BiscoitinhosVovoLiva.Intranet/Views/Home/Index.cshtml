@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var dominio = "@cast.com.br";
+}
+
+<div class="row" style="margin-top: 100px;">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Pão de Queijo da Vovó - Pedido</h3>
+            </div>
+            <div class="panel-body">
+                <form id="formPedido" role="form" action="Home/Create" method="post">
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="email" placeholder="foo.bar@cast.com.br" required="required" pattern='^[a-z.]+@dominio$'>
+                        <span class="help-block">Digite seu e-mail da Cast.</span>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" id="qtdade" min="1" max="2" pattern="\d+" required="required">
+                        <span class="help-block">Selecione a quantidade de pães.</span>
+                    </div>
+                    <button id="btnRealizarPedido" type="button" class="btn btn-primary btn-block">Realizar Pedido</button>
+                    <button id="btnAtualizarPedido" type="button" class="btn btn-default btn-block">Atualizar Pedido</button>
+                    <button id="btnSubmit" type="submit" class="hide" />
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4"></div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+
+        $('#btnRealizarPedido').click(function () {
+            if ($("#formPedido")[0].checkValidity()) {
+                var email = $('#email').val();
+                var qtd = $('#qtdade').val();
+
+                $.ajax({
+                    url: "Home/RealizarPedido",
+                    type: "POST",
+                    data: { email: email, qtd: qtd },
+                    success: OnSuccessCallback,
+                    error: OnErrorCallback
+                });
+
+            } else {
+                // Força submit do form apenas para valida-lo.
+                $("#btnSubmit").click();
+            }
+        });
+
+        $('#btnAtualizarPedido').click(function () {
+            if ($("#formPedido")[0].checkValidity()) {
+                var email = $('#email').val();
+                var qtd = $('#qtdade').val();
+
+                $.ajax({
+                    url: "Home/AtualizarPedido",
+                    type: "POST",
+                    data: { email: email, qtd: qtd },
+                    success: OnSuccessCallback,
+                    error: OnErrorCallback
+                });
+            } else {
+                // Força submit do form apenas para valida-lo.
+                $("#btnSubmit").click();
+            }
+        });
+
+
+        function OnSuccessCallback(data) {
+            console.log(data);
+            if (data.id >= 0) {
+                $('#mensagemSucesso').text(data.msg);
+                $('#mySuccessModal').modal({
+                    backdrop: 'static'
+                });
+            } else {
+                $('#mensagemErro').text(data.msg);
+                $('#myErrorModal').modal({
+                    backdrop: 'static'
+                });
+            }
+
+        }
+
+        function OnErrorCallback(xhr, ajaxOptions, thrownError) {
+            alert('Erro Inesperado');
+            console.log(xhr);
+            console.log(ajaxOptions);
+            console.log(thrownError);
+        }
+    });
+</script>

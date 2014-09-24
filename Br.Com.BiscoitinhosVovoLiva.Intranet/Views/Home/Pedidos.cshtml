@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "Pedidos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row" style="margin-top: 100px;">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Lista de pedidos da semana</h3>
+            </div>
+            <div class="panel-body">
+                <table id="grid-data" class="table table-condensed table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th data-column-id="IdPedido" data-type="numeric">Id Pedido</th>
+                            <th data-column-id="Email" data-order="asc">E-mail</th>
+                            <th data-column-id="Qtdade">Quantidade</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#grid-data").bootgrid({
+            ajax: true,
+            url: "ListarPedidos",
+        });
+
+    });
+</script>

@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    @Styles.Render("~/bundles/bootstrap/css")
+    @Styles.Render("~/bundles/css")    
+    @Styles.Render("~/bundles/jquery-bootgrid/css")
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    @Scripts.Render("~/bundles/jquery/js")
+</head>
+
+<body>
+
+    <div class="modal fade" id="myErrorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog alert alert-danger fade in" role="alert">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4>Ops!</h4>
+            <p id="mensagemErro">Parece que algo deu errado... =(</p>
+            <p>
+            </p>
+        </div>
+    </div>
+
+    <div class="modal fade" id="mySuccessModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog alert alert-success fade in" role="alert">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4>Sucesso!</h4>
+            <p id="mensagemSucesso">Ação realizada com sucesso!</p>
+            <p>
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        @RenderBody()       
+        <p class="text-center">&copy; 2014 Biscoitinhos da Vovó Liva - ME.</p>
+    </div>
+    <!-- /.container -->
+
+    
+    @Scripts.Render("~/bundles/bootstrap/js")    
+    @Scripts.Render("~/bundles/jquery-bootgrid/js")
+
+    @RenderSection("scripts", required: false)
+
+</body>
+
+</html>

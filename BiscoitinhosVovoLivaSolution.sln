@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Br.Com.BiscoitinhosVovoLiva.Web", "Br.Com.BiscoitinhosVovoLiva.Web\Br.Com.BiscoitinhosVovoLiva.Web.csproj", "{386D9350-63A4-4246-9BE4-6C3E3B602B88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Br.Com.BiscoitinhosVovoLiva.Intranet", "Br.Com.BiscoitinhosVovoLiva.Intranet\Br.Com.BiscoitinhosVovoLiva.Intranet.csproj", "{8DF8D1A4-AAE8-430E-AD71-B92CC2599D05}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{386D9350-63A4-4246-9BE4-6C3E3B602B88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{386D9350-63A4-4246-9BE4-6C3E3B602B88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{386D9350-63A4-4246-9BE4-6C3E3B602B88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{386D9350-63A4-4246-9BE4-6C3E3B602B88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DF8D1A4-AAE8-430E-AD71-B92CC2599D05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DF8D1A4-AAE8-430E-AD71-B92CC2599D05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DF8D1A4-AAE8-430E-AD71-B92CC2599D05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DF8D1A4-AAE8-430E-AD71-B92CC2599D05}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
