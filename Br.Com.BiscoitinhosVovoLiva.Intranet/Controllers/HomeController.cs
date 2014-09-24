@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Br.Com.BiscoitinhosVovoLiva.Intranet.Models;
-using Newtonsoft.Json;
+using Br.Com.BiscoitinhosVovoLiva.Entidade;
+using Br.Com.BiscoitinhosVovoLiva.Servico.Intefaces;
+
 
 namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
 {
@@ -14,6 +14,12 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
 
         private const int ID_ERRO = -1;
         private const int ID_SUCESSO = 0;
+
+        #endregion
+
+        #region Servicos
+
+        public IPedidoService ServicoPedido { get; set; }
 
         #endregion
 
@@ -38,6 +44,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
         {
             try
             {
+                ServicoPedido.Salvar(new Pedido());
                 //TODO: Verificar e-mail da cast. - Exceção email invalido
                 if (!collection["email"].Any())
                 {

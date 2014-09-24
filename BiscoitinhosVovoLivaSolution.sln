@@ -4,6 +4,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Br.Com.BiscoitinhosVovoLiva.Web", "Br.Com.BiscoitinhosVovoLiva.Web\Br.Com.BiscoitinhosVovoLiva.Web.csproj", "{386D9350-63A4-4246-9BE4-6C3E3B602B88}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Br.Com.BiscoitinhosVovoLiva.Intranet", "Br.Com.BiscoitinhosVovoLiva.Intranet\Br.Com.BiscoitinhosVovoLiva.Intranet.csproj", "{8DF8D1A4-AAE8-430E-AD71-B92CC2599D05}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1D50B320-FCB9-4F69-86DC-4E36BAE01BE4} = {1D50B320-FCB9-4F69-86DC-4E36BAE01BE4}
+		{202C02BC-C5AF-4179-9190-C9019A93FDFF} = {202C02BC-C5AF-4179-9190-C9019A93FDFF}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Br.Com.BiscoitinhosVovoLiva.Servico", "Br.Com.BiscoitinhosVovoLiva.Servico\Br.Com.BiscoitinhosVovoLiva.Servico.csproj", "{1D50B320-FCB9-4F69-86DC-4E36BAE01BE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Br.Com.BiscoitinhosVovoLiva.Entidade", "Br.Com.BiscoitinhosVovoLiva.Entidade\Br.Com.BiscoitinhosVovoLiva.Entidade.csproj", "{202C02BC-C5AF-4179-9190-C9019A93FDFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Br.Com.BiscoitinhosVovoLiva.RepositorioJSON", "Br.Com.BiscoitinhosVovoLiva.RepositorioJSON\Br.Com.BiscoitinhosVovoLiva.RepositorioJSON.csproj", "{B3FCA50F-7DC1-4041-AB7D-AACD64EB740F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Br.Com.BiscoitinhosVovoLiva.Repositorio", "Br.Com.BiscoitinhosVovoLiva.Repositorio\Br.Com.BiscoitinhosVovoLiva.Repositorio.csproj", "{BE6D2B58-D365-4DF8-B16E-BB1E4265DDE5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Br.Com.BiscoitinhosVovoLiva.Bootstrapper", "Br.Com.BiscoitinhosVovoLiva.Bootstrapper\Br.Com.BiscoitinhosVovoLiva.Bootstrapper.csproj", "{55E6F032-E512-4B64-82C7-63311D822611}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +33,26 @@ Global
 		{8DF8D1A4-AAE8-430E-AD71-B92CC2599D05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DF8D1A4-AAE8-430E-AD71-B92CC2599D05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DF8D1A4-AAE8-430E-AD71-B92CC2599D05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D50B320-FCB9-4F69-86DC-4E36BAE01BE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D50B320-FCB9-4F69-86DC-4E36BAE01BE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D50B320-FCB9-4F69-86DC-4E36BAE01BE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D50B320-FCB9-4F69-86DC-4E36BAE01BE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{202C02BC-C5AF-4179-9190-C9019A93FDFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{202C02BC-C5AF-4179-9190-C9019A93FDFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{202C02BC-C5AF-4179-9190-C9019A93FDFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{202C02BC-C5AF-4179-9190-C9019A93FDFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3FCA50F-7DC1-4041-AB7D-AACD64EB740F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3FCA50F-7DC1-4041-AB7D-AACD64EB740F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3FCA50F-7DC1-4041-AB7D-AACD64EB740F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3FCA50F-7DC1-4041-AB7D-AACD64EB740F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE6D2B58-D365-4DF8-B16E-BB1E4265DDE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE6D2B58-D365-4DF8-B16E-BB1E4265DDE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE6D2B58-D365-4DF8-B16E-BB1E4265DDE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE6D2B58-D365-4DF8-B16E-BB1E4265DDE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55E6F032-E512-4B64-82C7-63311D822611}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55E6F032-E512-4B64-82C7-63311D822611}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55E6F032-E512-4B64-82C7-63311D822611}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55E6F032-E512-4B64-82C7-63311D822611}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

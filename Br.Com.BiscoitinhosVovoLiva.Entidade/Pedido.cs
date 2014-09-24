@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Models
+namespace Br.Com.BiscoitinhosVovoLiva.Entidade
 {
     [Serializable]
     public class Pedido

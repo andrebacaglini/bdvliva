@@ -39,6 +39,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc">
+      <HintPath>..\packages\Autofac.Mvc4.3.1.0\lib\net40\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -124,13 +133,13 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IntranetBootstrapper.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Pedido.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -177,9 +186,24 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Br.Com.BiscoitinhosVovoLiva.Bootstrapper\Br.Com.BiscoitinhosVovoLiva.Bootstrapper.csproj">
+      <Project>{55e6f032-e512-4b64-82c7-63311d822611}</Project>
+      <Name>Br.Com.BiscoitinhosVovoLiva.Bootstrapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Br.Com.BiscoitinhosVovoLiva.Entidade\Br.Com.BiscoitinhosVovoLiva.Entidade.csproj">
+      <Project>{202c02bc-c5af-4179-9190-c9019a93fdff}</Project>
+      <Name>Br.Com.BiscoitinhosVovoLiva.Entidade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Br.Com.BiscoitinhosVovoLiva.Servico\Br.Com.BiscoitinhosVovoLiva.Servico.csproj">
+      <Project>{1d50b320-fcb9-4f69-86dc-4e36bae01be4}</Project>
+      <Name>Br.Com.BiscoitinhosVovoLiva.Servico</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -195,7 +219,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49784</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
