@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var versao = Br.Com.BiscoitinhosVovoLiva.Intranet.UtilVersao.RecuperaVersionAndBuildDate();    
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,7 +9,7 @@
     <title>@ViewBag.Title</title>
 
     @Styles.Render("~/bundles/bootstrap/css")
-    @Styles.Render("~/bundles/css")    
+    @Styles.Render("~/bundles/css")
     @Styles.Render("~/bundles/jquery-bootgrid/css")
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -41,13 +44,14 @@
     </div>
 
     <div class="container">
-        @RenderBody()       
+        @RenderBody()
         <p class="text-center">&copy; 2014 Biscoitinhos da Vovó Liva - ME.</p>
+        <p class="text-center">Versão: @versao (beta)</p>
     </div>
     <!-- /.container -->
 
-    
-    @Scripts.Render("~/bundles/bootstrap/js")    
+
+    @Scripts.Render("~/bundles/bootstrap/js")
     @Scripts.Render("~/bundles/jquery-bootgrid/js")
 
     @RenderSection("scripts", required: false)

@@ -10,5 +10,8 @@ namespace Br.Com.BiscoitinhosVovoLiva.Servico.Intefaces
     public interface IPedidoService
     {
         void Salvar(Pedido pedido);
+        int RecuperaNovoId();
+
+        List<Pedido> Listar();
     }
 }

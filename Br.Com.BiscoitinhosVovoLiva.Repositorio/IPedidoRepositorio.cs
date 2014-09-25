@@ -1,9 +1,14 @@
-﻿using Br.Com.BiscoitinhosVovoLiva.Entidade;
+﻿using System.Collections.Generic;
+using Br.Com.BiscoitinhosVovoLiva.Entidade;
 
 namespace Br.Com.BiscoitinhosVovoLiva.Repositorio
 {
     public interface IPedidoRepositorio
     {
-        void Salvar(Pedido pedido);        
+        void Salvar(Pedido pedido);
+
+        int RecuperaUltimoId();
+
+        List<Pedido> Listar();
     }
 }

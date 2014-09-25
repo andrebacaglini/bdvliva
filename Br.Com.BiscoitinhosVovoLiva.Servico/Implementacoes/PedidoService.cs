@@ -21,7 +21,35 @@ namespace Br.Com.BiscoitinhosVovoLiva.Servico.Implementacoes
         {
             try
             {
+                var novoId = RecuperaNovoId();
+                pedido.IdPedido = novoId;
                 PedidoRepositorio.Salvar(pedido);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public int RecuperaNovoId()
+        {
+            try
+            {
+                int id = PedidoRepositorio.RecuperaUltimoId();
+                return ++id;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        public List<Pedido> Listar()
+        {
+            try
+            {
+                return PedidoRepositorio.Listar();
             }
             catch (Exception)
             {

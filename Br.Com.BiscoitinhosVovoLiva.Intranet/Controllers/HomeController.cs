@@ -15,7 +15,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
         private const int ID_ERRO = -1;
         private const int ID_SUCESSO = 0;
 
-        #endregion
+        #endregion        
 
         #region Servicos
 
@@ -44,7 +44,13 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
         {
             try
             {
-                ServicoPedido.Salvar(new Pedido());
+                var pedido = new Pedido();             
+                pedido.Email = collection["email"].ToString();
+                pedido.Qtdade = Convert.ToInt32(collection["qtd"]);
+                ServicoPedido.Salvar(pedido);
+
+
+
                 //TODO: Verificar e-mail da cast. - Exceção email invalido
                 if (!collection["email"].Any())
                 {
@@ -88,7 +94,8 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
             var qtdadePorPagina = Convert.ToInt32(Request.Params["rowCount"]);
             var parametroConsulta = Request.Params["searchPhrase"];
 
-            var listaPedidos = CriaListaMOCK();
+            //var listaPedidos = CriaListaMOCK();
+            var listaPedidos = ServicoPedido.Listar();
 
             OrdenaPedidos(ref listaPedidos);
 
@@ -137,7 +144,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
         /// MOCK - Cria lista de pedidos fictícios para testes da grid.
         /// </summary>
         /// <returns></returns>
-        private static List<Pedido> CriaListaMOCK()
+        private List<Pedido> CriaListaMOCK()
         {
             var listaPedidos = new List<Pedido>();
             for (int i = 0; i < 50; i++)
