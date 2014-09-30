@@ -40,7 +40,9 @@
       <HintPath>..\packages\Castle.Core.3.2.2\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,8 +50,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementacoes\BaseService.cs" />
+    <Compile Include="Implementacoes\UsuarioService.cs" />
+    <Compile Include="Intefaces\IBaseService.cs" />
     <Compile Include="Intefaces\IPedidoService.cs" />
     <Compile Include="Implementacoes\PedidoService.cs" />
+    <Compile Include="Intefaces\IUsuarioService.cs" />
+    <Compile Include="LDAP\ActiveDirectoryUtility.cs" />
+    <Compile Include="LDAP\Configuracao\ActiveDirectoryConfiguracao.cs" />
+    <Compile Include="LDAP\Configuracao\Secoes\ActiveDirectoryConfigurationSection.cs" />
+    <Compile Include="LDAP\Configuracao\Secoes\ActiveDirectoryGrupoElement.cs" />
+    <Compile Include="LDAP\Configuracao\Secoes\ActiveDirectoryGrupoElementCollection.cs" />
+    <Compile Include="LDAP\Configuracao\Secoes\ActiveDirectoryServidorElement.cs" />
+    <Compile Include="LDAP\Configuracao\Secoes\ActiveDirectoryServidorElementCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

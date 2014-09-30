@@ -132,6 +132,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_LocalResources\Mensagens.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Mensagens.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IntranetBootstrapper.cs" />
@@ -172,7 +177,9 @@
     <Content Include="Scripts\jquery.bootgrid-1.1.0\jquery.bootgrid.min.js" />
     <Content Include="Scripts\bootstrap-3.2.0\bootstrap.js" />
     <Content Include="Scripts\bootstrap-3.2.0\bootstrap.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -206,6 +213,12 @@
       <Project>{1d50b320-fcb9-4f69-86dc-4e36bae01be4}</Project>
       <Name>Br.Com.BiscoitinhosVovoLiva.Servico</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\Mensagens.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Mensagens.Designer.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

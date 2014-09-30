@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Br.Com.BiscoitinhosVovoLiva.Entidade;
+using Br.Com.BiscoitinhosVovoLiva.Intranet.App_LocalResources;
 using Br.Com.BiscoitinhosVovoLiva.Servico.Intefaces;
-
 
 namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
 {
@@ -15,11 +15,12 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
         private const int ID_ERRO = -1;
         private const int ID_SUCESSO = 0;
 
-        #endregion        
+        #endregion
 
         #region Servicos
 
         public IPedidoService ServicoPedido { get; set; }
+        public IUsuarioService ServicoUsuario { get; set; }
 
         #endregion
 
@@ -40,26 +41,22 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
         #region Ajax
 
         [HttpPost]
-        public JsonResult RealizarPedido(FormCollection collection)
+        public JsonResult RealizarPedido(FormCollection form)
         {
             try
             {
-                var pedido = new Pedido();             
-                pedido.Email = collection["email"].ToString();
-                pedido.Qtdade = Convert.ToInt32(collection["qtd"]);
-                ServicoPedido.Salvar(pedido);
+                var pedido = ExtrairPedidoForm(form);
+                var loginValido = ServicoUsuario.ValidarLogin(pedido.Login);
 
-
-
-                //TODO: Verificar e-mail da cast. - Exceção email invalido
-                if (!collection["email"].Any())
+                if (loginValido)
                 {
-                    throw new ApplicationException("email invalido");
+                    ServicoPedido.Salvar(pedido);
                 }
-                // TODO: Identificar semana
-                // TODO: Verificar se email já possui pedido para semana - Exceção caso já tenha pedido
-                // TODO: Realizar Pedido para semana
-                return TrataJsonResult(ID_SUCESSO, "Sucesso Create");
+                else
+                {
+                    throw new ApplicationException(Mensagens.ERRO_EMAIL_INVALIDO);
+                }
+                return TrataJsonResult(ID_SUCESSO, Mensagens.SUCESSO_PEDIDO_REALIZADO);
             }
             catch (Exception e)
             {
@@ -141,21 +138,24 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
         #region Metodos Auxiliares
 
         /// <summary>
-        /// MOCK - Cria lista de pedidos fictícios para testes da grid.
+        /// Extrai os dados do formulario do pedido criando uma nova instancia de Pedido.
         /// </summary>
-        /// <returns></returns>
-        private List<Pedido> CriaListaMOCK()
+        /// <param name="form">Formulário do pedido</param>
+        /// <returns>Novo Pedido</returns>        
+        protected Pedido ExtrairPedidoForm(FormCollection form)
         {
-            var listaPedidos = new List<Pedido>();
-            for (int i = 0; i < 50; i++)
+            try
             {
                 var p = new Pedido();
-                p.IdPedido = i;
-                p.Email = string.Format("foo.bar{0}@cast.com.br", i);
-                p.Qtdade = i;
-                listaPedidos.Add(p);
+                p.Email = form["email"].ToString();
+                p.Login = p.Email.Split('@')[0];
+                p.Qtdade = Convert.ToInt32(form["qtd"]);
+                return p;
             }
-            return listaPedidos;
+            catch (Exception ex)
+            {
+                throw new ApplicationException(Mensagens.ERRO_REQ_FORM_COLLECTION, ex);
+            }
         }
 
         /// <summary>
@@ -174,18 +174,6 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
                         break;
                     default://asc
                         listaPedidos = listaPedidos.OrderBy(x => x.Email).ToList();
-                        break;
-                }
-            }
-            else if (!string.IsNullOrEmpty(Request.Params["sort[IdPedido]"]))
-            {
-                switch (Request.Params["sort[IdPedido]"])
-                {
-                    case "desc":
-                        listaPedidos = listaPedidos.OrderByDescending(x => x.IdPedido).ToList();
-                        break;
-                    default://asc
-                        listaPedidos = listaPedidos.OrderBy(x => x.IdPedido).ToList();
                         break;
                 }
             }
@@ -241,8 +229,18 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
                     retorno.Data = new { id = id, msg = msg };
                     break;
                 case ID_ERRO:
-                    var excecao = data as Exception;
-                    retorno.Data = new { id = id, msg = excecao.Message };
+                    // Exceções tratadas devem sempre ser ApplicationException
+                    if (data.GetType() == typeof(ApplicationException))
+                    {
+                        var excecao = data as ApplicationException;
+                        retorno.Data = new { id = id, msg = excecao.Message };
+                    }
+                    else
+                    {
+                        var excecao = data as Exception;
+                        retorno.Data = new { id = id, msg = Mensagens.ERRO_MSG_PADRAO };
+                    }
+
                     break;
                 default:
                     break;

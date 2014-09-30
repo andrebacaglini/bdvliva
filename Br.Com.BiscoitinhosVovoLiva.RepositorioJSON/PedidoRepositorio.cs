@@ -2,19 +2,22 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Xml;
-using System.Xml.Serialization;
 using Br.Com.BiscoitinhosVovoLiva.Entidade;
 using Br.Com.BiscoitinhosVovoLiva.Repositorio;
 using Newtonsoft.Json;
-using System.Linq;
 
 namespace Br.Com.BiscoitinhosVovoLiva.RepositorioJSON
 {
     public class PedidoRepositorio : RepositorioJSON<Pedido>, IPedidoRepositorio
     {
+        #region Constantes
+
         private const string CAMINHO_XML = @"C:\BDVLiva\json";
         private const string PADRAO_NOME_XML = "{0}_pedidos_semana_{1}.json";
+
+        #endregion
+
+        #region Propriedades
 
         private string CaminhoCompleto
         {
@@ -32,11 +35,15 @@ namespace Br.Com.BiscoitinhosVovoLiva.RepositorioJSON
             }
         }
 
+        #endregion
+
         public PedidoRepositorio()
         {
             VerificaExistenciaDiretorio();
             VerificaExistenciaArquivoSemana();
         }
+
+        #region Metodos Auxiliares
 
         private void VerificaExistenciaArquivoSemana()
         {
@@ -65,6 +72,10 @@ namespace Br.Com.BiscoitinhosVovoLiva.RepositorioJSON
             return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(data, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday).ToString();
         }
 
+        #endregion
+
+        #region Metodos CRUD
+
         public void Salvar(Pedido pedido)
         {
             var json = JsonConvert.SerializeObject(pedido);
@@ -72,21 +83,6 @@ namespace Br.Com.BiscoitinhosVovoLiva.RepositorioJSON
             {
                 writer.WriteLine(json);
             }
-        }
-
-        public int RecuperaUltimoId()
-        {
-            var lista = new List<Pedido>();
-
-            foreach (var linha in File.ReadLines(CaminhoCompleto))
-            {
-                var pedido = JsonConvert.DeserializeObject<Pedido>(linha);
-                lista.Add(pedido);
-            }
-
-            var ultimoId = lista.Any() ? lista.OrderByDescending(x => x.IdPedido).FirstOrDefault().IdPedido : 0;
-
-            return ultimoId;
         }
 
         public List<Pedido> Listar()
@@ -99,5 +95,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.RepositorioJSON
             }
             return lista;
         }
+
+        #endregion
     }
 }

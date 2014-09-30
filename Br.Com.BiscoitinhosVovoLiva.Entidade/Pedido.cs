@@ -9,7 +9,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.Entidade
     [Serializable]
     public class Pedido
     {
-        public int IdPedido { get; set; }
+        public string Login { get; set; }
         public string Email { get; set; }
         public int Qtdade { get; set; }
     }

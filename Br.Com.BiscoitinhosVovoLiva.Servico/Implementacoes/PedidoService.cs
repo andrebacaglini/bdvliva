@@ -9,7 +9,7 @@ using Br.Com.BiscoitinhosVovoLiva.Servico.Intefaces;
 
 namespace Br.Com.BiscoitinhosVovoLiva.Servico.Implementacoes
 {
-    public class PedidoService : IPedidoService
+    public class PedidoService : BaseService, IPedidoService
     {
         #region Repositorio
 
@@ -21,8 +21,8 @@ namespace Br.Com.BiscoitinhosVovoLiva.Servico.Implementacoes
         {
             try
             {
-                var novoId = RecuperaNovoId();
-                pedido.IdPedido = novoId;
+                // TODO: Verificar se email já possui pedido para semana - Exceção caso já tenha pedido
+
                 PedidoRepositorio.Salvar(pedido);
             }
             catch (Exception)
@@ -30,20 +30,6 @@ namespace Br.Com.BiscoitinhosVovoLiva.Servico.Implementacoes
                 throw;
             }
         }
-
-        public int RecuperaNovoId()
-        {
-            try
-            {
-                int id = PedidoRepositorio.RecuperaUltimoId();
-                return ++id;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
 
         public List<Pedido> Listar()
         {
