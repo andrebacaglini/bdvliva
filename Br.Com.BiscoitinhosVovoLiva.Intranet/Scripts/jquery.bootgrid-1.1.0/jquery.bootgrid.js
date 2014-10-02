@@ -657,30 +657,30 @@
                 });
         }
 
-        tbody.off("click" + namespace, "> tr")
-            .on("click" + namespace, "> tr", function(e)
-            {
-                e.stopPropagation();
+        // Tive que comentar esse trecho pq o that.converter estava sempre vindo nulo.
+        //tbody.off("click" + namespace, "> tr")
+        //    .on("click" + namespace, "> tr", function(e)
+        //    {
+        //        e.stopPropagation();
 
-                var $this = $(this),
-                    id = that.converter.from($this.data("row-id")),
-                    row = (this.identifier == null) ? that.currentRows[id] : 
-                        that.currentRows.first(function (item) { return item[that.identifier] === id; });
+        //        var $this = $(this);
+        //        var id = that.converter.from($this.data("row-id"));
+        //        var row = (this.identifier == null) ? that.currentRows[id] : that.currentRows.first(function (item) { return item[that.identifier] === id; });
 
-                if (selection && that.options.rowSelect)
-                {
-                    if ($this.hasClass(that.options.css.selected))
-                    {
-                        that.deselect([id]);
-                    }
-                    else
-                    {
-                        that.select([id]);
-                    }
-                }
+        //        if (selection && that.options.rowSelect)
+        //        {
+        //            if ($this.hasClass(that.options.css.selected))
+        //            {
+        //                that.deselect([id]);
+        //            }
+        //            else
+        //            {
+        //                that.select([id]);
+        //            }
+        //        }
 
-                that.element.trigger("click" + namespace, [that.columns, row]);
-            });
+        //        that.element.trigger("click" + namespace, [that.columns, row]);
+        //    });
     }
 
     function renderSearchField()

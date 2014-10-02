@@ -5,8 +5,10 @@ namespace Br.Com.BiscoitinhosVovoLiva.Repositorio
 {
     public interface IPedidoRepositorio
     {
-        void Salvar(Pedido pedido);        
+        void Salvar(Pedido pedido);
 
         List<Pedido> Listar();
+
+        void Atualizar(List<Pedido> todosPedidos);
     }
 }

@@ -118,16 +118,35 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ERRO_EMAIL_INVALIDO" xml:space="preserve">
-    <value>E-mail inválido!</value>
+    <value>E-mail inválido.</value>
     <comment>Mensagen de erro para e-mail invalido.</comment>
   </data>
   <data name="ERRO_MSG_PADRAO" xml:space="preserve">
     <value>Ocorreu um erro inesperado.</value>
     <comment>Mensagem de erro padrão.</comment>
   </data>
+  <data name="ERRO_PEDIDO_EXISTENTE" xml:space="preserve">
+    <value>Você já realizou seu pedido! Caso queira alterá-lo, clique em Atualizar Pedido.</value>
+    <comment>Mensagem de erro para pedido já cadastrado.</comment>
+  </data>
+  <data name="ERRO_PEDIDO_NAO_ENCONTRADO" xml:space="preserve">
+    <value>Seu pedido não foi encontrado para atualização. Realize o pedido primeiro.</value>
+    <comment>Mensagem de erro para um pedido não encontrado.</comment>
+  </data>
+  <data name="ERRO_QTDADE_INVALIDA" xml:space="preserve">
+    <value>Desculpe mas quantidade de pães de queijo deve ser no minimo 1 e no máximo 2.</value>
+  </data>
   <data name="ERRO_REQ_FORM_COLLECTION" xml:space="preserve">
     <value>Ocorreu um erro ao recuperar os dados do formulário.</value>
     <comment>Mensagem de erro para dados do form collection invalidos.</comment>
+  </data>
+  <data name="ERRO_USUARIO_NAO_ENCONTRADO" xml:space="preserve">
+    <value>Usuário não encontrado.</value>
+    <comment>Mensagem de erro para usuário não encontrado.</comment>
+  </data>
+  <data name="SUCESSO_PEDIDO_ATUALIZADO" xml:space="preserve">
+    <value>Seu pedido foi atualizado com sucesso!</value>
+    <comment>Mensagem de sucesso para o pedido atualizado.</comment>
   </data>
   <data name="SUCESSO_PEDIDO_REALIZADO" xml:space="preserve">
     <value>Seu pedido foi realizado com sucesso!</value>

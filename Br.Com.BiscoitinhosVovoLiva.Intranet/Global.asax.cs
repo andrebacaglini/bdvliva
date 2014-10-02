@@ -15,14 +15,14 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet
     {
         private static ILog Logger()
         {
-            return LogManager.GetLogger("BDVLiva.LOG");
+            return LogManager.GetLogger("BDVLiva");
         }
 
         protected void Application_Start()
-        {
+        {                        
             //Dispara configuração do Log4Net.
             log4net.Config.XmlConfigurator.Configure();
-
+            Logger().Info("Iniciando sistema...");
             try
             {
                 AreaRegistration.RegisterAllAreas();
@@ -32,12 +32,18 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet
                 BundleConfig.RegisterBundles(BundleTable.Bundles);
 
                 IntranetBootstrapper.Inicializar();
+                Logger().Info("Sistema iniciado com sucesso...");
             }
             catch (Exception ex)
             {
                 Logger().Error("Ocorreu um erro durante a inicialização do sistema.", ex);
                 throw;
             }
+        }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            Logger().Error("Ocorreu um erro no sistema.", Server.GetLastError());
         }
     }
 }

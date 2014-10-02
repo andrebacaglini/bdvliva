@@ -148,10 +148,36 @@ namespace Br.Com.BiscoitinhosVovoLiva.Servico.LDAP
 
             if (registros == null || registros.All(reg => reg == null))
             {
-                throw new ApplicationException("Usuário não encontrado.");
+                throw new ApplicationException("ERRO_USUARIO_NAO_ENCONTRADO");
             }
 
             return true;
+        }
+
+        public bool ValidarUsuario(string login, string senha)
+        {
+            var filtro = String.Format(LdapPadraoFiltroLogin, _config.CampoLogin, login);
+            var grupos = _config.Grupos.Cast<ActiveDirectoryGrupoElement>();
+
+            List<SearchResult> registros = null;
+            try
+            {
+                registros = grupos
+                    .Select(grp => PesquisarRegistro(_servidorConsulta, filtro, grp.Nome))
+                    .ToList();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            if (registros == null || registros.All(reg => reg == null))
+            {
+                throw new ApplicationException("ERRO_USUARIO_NAO_ENCONTRADO");
+            }
+
+            return registros.Any(x => ValidarRegistro(x.GetDirectoryEntry(), senha));
         }
 
         #endregion

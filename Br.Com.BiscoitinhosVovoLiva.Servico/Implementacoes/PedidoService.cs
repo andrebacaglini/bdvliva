@@ -11,36 +11,117 @@ namespace Br.Com.BiscoitinhosVovoLiva.Servico.Implementacoes
 {
     public class PedidoService : BaseService, IPedidoService
     {
-        #region Repositorio
+        #region Servicos
+
+        public IUsuarioService ServicoUsuario { get; set; }
+
+        #endregion
+
+        #region Repositorios
 
         public IPedidoRepositorio PedidoRepositorio { get; set; }
 
         #endregion
 
-        public void Salvar(Pedido pedido)
-        {
-            try
-            {
-                // TODO: Verificar se email já possui pedido para semana - Exceção caso já tenha pedido
-
-                PedidoRepositorio.Salvar(pedido);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
+        /// <summary>
+        /// Lista todos os pedidos cadastrados.
+        /// </summary>
+        /// <returns></returns>
         public List<Pedido> Listar()
         {
-            try
+            return PedidoRepositorio.Listar();
+        }
+
+        /// <summary>
+        /// Salva o pedido solicitado
+        /// </summary>
+        /// <param name="pedido"></param>
+        public void Salvar(Pedido pedido)
+        {
+            ValidaLoginUsuario(pedido.Login);
+            ValidaPedidoExistente(pedido.Login);
+            ValidaQtdadePaes(pedido.Qtdade);
+            PedidoRepositorio.Salvar(pedido);
+        }
+
+        /// <summary>
+        /// Atualiza os dados mutaveis (quantidade e status de pagamento) do pedido.
+        /// </summary>
+        /// <param name="pedido"></param>
+        public void Atualizar(Pedido pedidoNovo)
+        {
+            ValidaLoginUsuario(pedidoNovo.Login);
+            ValidaQtdadePaes(pedidoNovo.Qtdade);
+            var todosPedidos = Listar();
+
+            var pedidoExistente = todosPedidos.FirstOrDefault(x => string.Equals(x.Login, pedidoNovo.Login));
+            if (pedidoExistente == null)
             {
-                return PedidoRepositorio.Listar();
+                throw new ApplicationException("ERRO_PEDIDO_NAO_ENCONTRADO");
             }
-            catch (Exception)
+            else
             {
-                throw;
+                pedidoExistente.Qtdade = pedidoNovo.Qtdade;
+                pedidoExistente.Pago = pedidoNovo.Pago;
+            }
+
+            PedidoRepositorio.Atualizar(todosPedidos);
+        }
+
+        /// <summary>
+        /// Consulta um pedido especifico pelo identificador (Login).
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
+        public Pedido ConsultarPorLogin(string login)
+        {
+            return Listar().FirstOrDefault(x => string.Equals(x.Login, login));
+        }
+
+        #region Validações
+
+        /// <summary>
+        /// Verifica se já existe um pedido para o login.
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
+        private bool ValidaPedidoExistente(string login)
+        {
+            var jaExistePedido = Listar().Any(x => string.Equals(x.Login, login));
+            if (jaExistePedido)
+            {
+                throw new ApplicationException("ERRO_PEDIDO_EXISTENTE");
+            }
+            return jaExistePedido;
+        }
+
+        /// <summary>
+        /// Verifica se o login do usuario é valido.
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
+        private bool ValidaLoginUsuario(string login)
+        {
+            var isValid = ServicoUsuario.ValidarLogin(login);
+            if (!isValid)
+            {
+                throw new ApplicationException("ERRO_EMAIL_INVALIDO");
+            }
+            return isValid;
+        }
+        
+        /// <summary>
+        /// Verifica a quantidade minima e máxima de pães de queijo permitido.
+        /// </summary>
+        /// <param name="qtdade"></param>
+        private void ValidaQtdadePaes(int qtdade)
+        {
+            if (qtdade < 1 || qtdade > 2)
+            {
+                throw new ApplicationException("ERRO_QTDADE_INVALIDA");
             }
         }
+
+        #endregion
     }
 }

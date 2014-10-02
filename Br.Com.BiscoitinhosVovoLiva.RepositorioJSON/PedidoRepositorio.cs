@@ -5,6 +5,8 @@ using System.IO;
 using Br.Com.BiscoitinhosVovoLiva.Entidade;
 using Br.Com.BiscoitinhosVovoLiva.Repositorio;
 using Newtonsoft.Json;
+using System.Linq;
+using System.Text;
 
 namespace Br.Com.BiscoitinhosVovoLiva.RepositorioJSON
 {
@@ -97,5 +99,16 @@ namespace Br.Com.BiscoitinhosVovoLiva.RepositorioJSON
         }
 
         #endregion
+
+
+        public void Atualizar(List<Pedido> todosPedidos)
+        {
+            var sbTodosPedidos = new StringBuilder();
+            foreach (var pedido in todosPedidos)
+            {
+                sbTodosPedidos.AppendLine(JsonConvert.SerializeObject(pedido));
+            }
+            File.WriteAllText(CaminhoCompleto, sbTodosPedidos.ToString());
+        }
     }
 }

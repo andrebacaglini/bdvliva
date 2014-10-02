@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using Br.Com.BiscoitinhosVovoLiva.Entidade;
 using Br.Com.BiscoitinhosVovoLiva.Intranet.App_LocalResources;
 using Br.Com.BiscoitinhosVovoLiva.Servico.Intefaces;
+using log4net;
 
 namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
 {
@@ -19,8 +20,8 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
 
         #region Servicos
 
+        public ILog Logger { get; set; }
         public IPedidoService ServicoPedido { get; set; }
-        public IUsuarioService ServicoUsuario { get; set; }
 
         #endregion
 
@@ -31,6 +32,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult Pedidos()
         {
             return View();
@@ -46,16 +48,8 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
             try
             {
                 var pedido = ExtrairPedidoForm(form);
-                var loginValido = ServicoUsuario.ValidarLogin(pedido.Login);
-
-                if (loginValido)
-                {
-                    ServicoPedido.Salvar(pedido);
-                }
-                else
-                {
-                    throw new ApplicationException(Mensagens.ERRO_EMAIL_INVALIDO);
-                }
+                ServicoPedido.Salvar(pedido);
+                //TODO: Enviar email de comprovante de pedido.
                 return TrataJsonResult(ID_SUCESSO, Mensagens.SUCESSO_PEDIDO_REALIZADO);
             }
             catch (Exception e)
@@ -65,19 +59,14 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
         }
 
         [HttpPost]
-        public JsonResult AtualizarPedido(FormCollection collection)
+        public JsonResult AtualizarPedido(FormCollection form)
         {
             try
             {
-                //TODO: Verificar e-mail da cast. - Exceção email invalido
-                if (!collection["email"].Any())
-                {
-                    throw new ApplicationException("email invalido");
-                }
-                // TODO: Identificar semana
-                // TODO: Verificar se email já possui pedido para semana - Exceção caso não tenha pedido
-                // TODO: Atualizar Pedido para semana
-                return TrataJsonResult(ID_SUCESSO, "Sucesso Edit");
+                var pedido = ExtrairPedidoForm(form);
+                ServicoPedido.Atualizar(pedido);
+                //TODO: Enviar email de comprovante da atualização do pedido.
+                return TrataJsonResult(ID_SUCESSO, Mensagens.SUCESSO_PEDIDO_ATUALIZADO);
             }
             catch (Exception e)
             {
@@ -85,14 +74,36 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
             }
         }
 
+        public JsonResult Pagar(string login, bool pagou)
+        {
+            try
+            {
+                var pedido = ServicoPedido.ConsultarPorLogin(login);
+                pedido.Pago = pagou;
+                ServicoPedido.Atualizar(pedido);
+
+                var retorno = new JsonResult();
+                retorno.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+                retorno.Data = new { Login = login, pagou = pagou };
+                return retorno;
+            }
+            catch (Exception e)
+            {
+                return TrataJsonResult(ID_ERRO, e);
+            }
+        }
+
+        //TODO: Refatorar/Melhorar
         public JsonResult ListarPedidos()
         {
             var paginaAtual = Convert.ToInt32(Request.Params["current"]);
             var qtdadePorPagina = Convert.ToInt32(Request.Params["rowCount"]);
             var parametroConsulta = Request.Params["searchPhrase"];
 
-            //var listaPedidos = CriaListaMOCK();
             var listaPedidos = ServicoPedido.Listar();
+
+            var totalDePaes = 0;
+            listaPedidos.ForEach(x => totalDePaes += x.Qtdade);
 
             OrdenaPedidos(ref listaPedidos);
 
@@ -127,7 +138,8 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
                 current = paginaAtual,
                 rowCount = qtdadePorPagina,
                 rows = listaFiltradaPaginada.ToArray(),
-                total = totalRegistros
+                total = totalRegistros,
+                totalpdq = totalDePaes
             };
 
             return Json(jsonResponse);
@@ -150,11 +162,12 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
                 p.Email = form["email"].ToString();
                 p.Login = p.Email.Split('@')[0];
                 p.Qtdade = Convert.ToInt32(form["qtd"]);
+                p.Pago = false;
                 return p;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException(Mensagens.ERRO_REQ_FORM_COLLECTION, ex);
+                throw new ApplicationException("ERRO_REQ_FORM_COLLECTION", ex);
             }
         }
 
@@ -233,12 +246,16 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
                     if (data.GetType() == typeof(ApplicationException))
                     {
                         var excecao = data as ApplicationException;
-                        retorno.Data = new { id = id, msg = excecao.Message };
+                        var mensagem = Mensagens.ResourceManager.GetString(excecao.Message);
+                        mensagem = string.IsNullOrEmpty(mensagem) ? "Mensagem de erro não encontrada." : mensagem;
+                        retorno.Data = new { id = id, msg = mensagem };
+                        Logger.Error(excecao.Message, excecao);
                     }
                     else
                     {
                         var excecao = data as Exception;
                         retorno.Data = new { id = id, msg = Mensagens.ERRO_MSG_PADRAO };
+                        Logger.Error(excecao.Message, excecao);
                     }
 
                     break;
