@@ -22,14 +22,24 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(string usuario, string senha)
+        public ActionResult Login(string usuario, string senha, string ReturnUrl)
         {
             try
             {
-                if (UsuarioService.IsAdmin(usuario, senha))
+                if (UsuarioService.ValidarLogin(usuario, senha))
                 {
                     CriaCookieAutenticacao(usuario);
-                    return RedirectToAction("Pedidos", "Home");
+                    if (!string.IsNullOrEmpty(ReturnUrl))
+                    {
+                        var array = ReturnUrl.Split('/');
+                        var action = array.Length > 2 ? array[2] : "Index";
+                        var controller = array[1];
+                        return RedirectToAction(action, controller);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
                 return View("AcessoNegado");
             }

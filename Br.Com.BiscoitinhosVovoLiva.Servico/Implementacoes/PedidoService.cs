@@ -62,7 +62,8 @@ namespace Br.Com.BiscoitinhosVovoLiva.Servico.Implementacoes
             else
             {
                 pedidoExistente.Qtdade = pedidoNovo.Qtdade;
-                pedidoExistente.Pago = pedidoNovo.Pago;
+                pedidoExistente.Pagou = pedidoNovo.Pagou;
+                pedidoExistente.Pegou = pedidoNovo.Pegou;
             }
 
             PedidoRepositorio.Atualizar(todosPedidos);
@@ -109,7 +110,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.Servico.Implementacoes
             }
             return isValid;
         }
-        
+
         /// <summary>
         /// Verifica a quantidade minima e máxima de pães de queijo permitido.
         /// </summary>
