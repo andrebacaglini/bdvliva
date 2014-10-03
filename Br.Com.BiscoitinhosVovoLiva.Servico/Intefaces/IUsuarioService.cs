@@ -16,6 +16,6 @@ namespace Br.Com.BiscoitinhosVovoLiva.Servico.Intefaces
         /// <param name="login"></param>
         /// <param name="senha"></param>
         /// <returns></returns>
-        bool IsAdmin(string login, string senha);
+        bool ValidarLogin(string login, string senha);
     }
 }

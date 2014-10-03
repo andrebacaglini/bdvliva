@@ -24,6 +24,7 @@
 </head>
 
 <body>
+    @*MODAL ERROR*@
     <div class="modal fade" id="myErrorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog alert alert-danger fade in" role="alert">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
@@ -34,6 +35,7 @@
         </div>
     </div>
 
+    @*MODAL SUCCESS*@
     <div class="modal fade" id="mySuccessModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog alert alert-success fade in" role="alert">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
@@ -44,10 +46,10 @@
         </div>
     </div>
 
-
-
+    @*CONTAINER*@
     <div class="container">
         <div class="row" style="margin-top: 20px">
+            @*NAVBAR*@
             <nav class="navbar navbar-default" role="navigation">
                 <div class="container-fluid">
                     <!-- Brand and toggle get grouped for better mobile display -->
@@ -58,21 +60,31 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        @Html.ActionLink("Pão de Queijo", "Index", "Home", null, new { @class = "navbar-brand" })
+                        @Html.ActionLink("Pão de Queijo", "Index", "PaoDeQueijo", null, new { @class = "navbar-brand" })
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
                             <li>
-                                @Html.ActionLink("Pedidos", "Pedidos", "Home")
+                                @if (string.Equals(User.Identity.Name, "andre.bacaglini"))
+                                {
+                                    @Html.ActionLink("Pedidos", "Pedidos", "PaoDeQueijo")
+                                }
                             </li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li>
                                 @if (User.Identity.IsAuthenticated)
                                 {
+                                    <p class="navbar-text navbar-right">
+                                        Bem vindo @User.Identity.Name | 
                                     @Html.ActionLink("Sair", "Logout", "Account")
+                                    </p>
+                                }
+                                else
+                                {
+                                    @Html.ActionLink("Entrar", "Login", "Account")
                                 }
                             </li>
                         </ul>

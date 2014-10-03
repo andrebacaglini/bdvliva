@@ -12,6 +12,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.Entidade
         public string Login { get; set; }
         public string Email { get; set; }
         public int Qtdade { get; set; }
-        public bool Pago { get; set; }
+        public bool Pegou { get; set; }
+        public bool Pagou { get; set; }
     }
 }

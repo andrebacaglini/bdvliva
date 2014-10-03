@@ -1,0 +1,119 @@
+﻿@{
+    ViewBag.Title = "Pedidos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-2"></div>
+<div class="col-md-8">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Lista de pedidos da semana - Total de pães de queijo <span id="totalPdq" class="badge"></span></h3>
+        </div>
+        <div class="panel-body">
+            <table id="grid-data" class="table table-condensed table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th data-column-id="Email" data-order="asc">E-mail</th>
+                        <th data-column-id="Qtdade">Quantidade</th>
+                        <th data-column-id="pegou" data-formatter="pegou" data-sortable="false">Pegou?</th>
+                        <th data-column-id="pagou" data-formatter="pagou" data-sortable="false">Pagou?</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="col-md-2"></div>
+
+<script>
+    var grid;
+    $(document).ready(function () {
+
+        grid = $("#grid-data")
+             .bootgrid({
+                 ajax: true,
+                 url: "ListarPedidos",
+                 selection: false,
+                 rowSelect: false,
+                 multiSelect: false,
+                 keepSelection: false,
+                 columnSelection: false,
+                 labels: {
+                     all: "Todos",
+                     infos: "Exibindo de {{ctx.start}} a {{ctx.end}} de {{ctx.total}} pedidos",
+                     loading: "Carregando...",
+                     noResults: "Nenhum pedido encontrado.",
+                     refresh: "Atualizar",
+                     search: "E-mail"
+                 },
+                 responseHandler: function (response) {
+                     $('#totalPdq').html(response.totalpdq);
+                     return response;
+                 },
+                 formatters: {
+                     "pagou": function (column, row) {
+                         var html = "<button type=\"button\" class=\"btn btn-danger btn-xs pagou\" data-row-id=\"" + row.Login + "\" data-pagou=\"" + row.Pagou + "\"><span class=\"glyphicon glyphicon-thumbs-down\"></span></button>";
+                         if (row.Pagou) {
+                             html = "<button type=\"button\" class=\"btn btn-success btn-xs pagou\" data-row-id=\"" + row.Login + "\" data-pagou=\"" + row.Pagou + "\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></button> ";
+                         }
+                         return html;
+                     },
+                     "pegou": function (column, row) {
+                         var html = "<button type=\"button\" class=\"btn btn-danger btn-xs pegou\" data-row-id=\"" + row.Login + "\" data-pegou=\"" + row.Pegou + "\"><span class=\"glyphicon glyphicon-thumbs-down\"></span></button>";
+                         if (row.Pegou) {
+                             html = "<button type=\"button\" class=\"btn btn-success btn-xs pegou\" data-row-id=\"" + row.Login + "\" data-pegou=\"" + row.Pegou + "\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></button> ";
+                         }
+                         return html;
+                     }
+                 }
+             })
+             .on("loaded.rs.jquery.bootgrid", function (e) {
+                 $(this).find(".pagou")
+                     .on("click", function (e) {
+                         Pagou($(this).data("row-id"), $(this).data("pagou"));
+                     }).end().find(".pegou")
+                     .on("click", function (e) {
+                         Pegou($(this).data("row-id"), $(this).data("pegou"));
+                     });
+             })
+
+        function Pagou(login, pagou) {
+            $.ajax({
+                url: '@Url.Action("Pagar")',
+                type: "POST",
+                data: { login: login, pagou: !pagou },
+                success: OnSuccessCallback,
+                error: OnErrorCallback
+            });
+         }
+
+        function Pegou(login, pegou) {
+            $.ajax({
+                url: '@Url.Action("Pegar")',
+                type: "POST",
+                data: { login: login, pegou: !pegou },
+                success: OnSuccessCallback,
+                error: OnErrorCallback
+            });
+        }
+
+
+        function OnSuccessCallback(data) {
+            //Not working: jquery-bootgrid
+            //grid.reload();
+            $('button[title=Atualizar]').click();
+        }
+
+        function OnErrorCallback(xhr, ajaxOptions, thrownError) {
+            console.log(xhr);
+            console.log(ajaxOptions);
+            console.log(thrownError);
+            $('#mensagemErro').text("Ocorreu um erro inesperado. Por favor, entre em contato com o administrador.");
+            $('#myErrorModal').modal({
+                backdrop: 'static'
+            });
+
+        }
+
+    });
+</script>

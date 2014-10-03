@@ -21,8 +21,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.Servico.Implementacoes
         {
             try
             {
-                var usuarioValido = ADUtility.ValidarUsuario(login);
-                return usuarioValido;
+                return ADUtility.ValidarUsuario(login);
             }
             catch (Exception)
             {
@@ -36,19 +35,12 @@ namespace Br.Com.BiscoitinhosVovoLiva.Servico.Implementacoes
         /// <param name="login"></param>
         /// <param name="senha"></param>
         /// <returns></returns>
-        public bool IsAdmin(string login, string senha)
+        public bool ValidarLogin(string login, string senha)
         {
             try
             {
-                if (!string.Equals(login, "andre.bacaglini") || !ValidarLogin(login))
-                {
-                    throw new ApplicationException("Acesso Negado");
-                }
-                else
-                {
-                    ADUtility.ValidarUsuario(login, senha);
-                    return true;
-                }
+                return ADUtility.ValidarUsuario(login, senha);
+
             }
             catch (Exception)
             {
