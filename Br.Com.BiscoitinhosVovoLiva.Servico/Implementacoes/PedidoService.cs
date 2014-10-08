@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Br.Com.BiscoitinhosVovoLiva.Entidade;
 using Br.Com.BiscoitinhosVovoLiva.Repositorio;
 using Br.Com.BiscoitinhosVovoLiva.Servico.Intefaces;
@@ -24,15 +23,6 @@ namespace Br.Com.BiscoitinhosVovoLiva.Servico.Implementacoes
         #endregion
 
         /// <summary>
-        /// Lista todos os pedidos cadastrados.
-        /// </summary>
-        /// <returns></returns>
-        public List<Pedido> Listar()
-        {
-            return PedidoRepositorio.Listar();
-        }
-
-        /// <summary>
         /// Salva o pedido solicitado
         /// </summary>
         /// <param name="pedido"></param>
@@ -45,7 +35,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.Servico.Implementacoes
         }
 
         /// <summary>
-        /// Atualiza os dados mutaveis (quantidade e status de pagamento) do pedido.
+        /// Atualiza os dados mutaveis (quantidade e status de pagamento) do pedido atual
         /// </summary>
         /// <param name="pedido"></param>
         public void Atualizar(Pedido pedidoNovo)
@@ -70,13 +60,97 @@ namespace Br.Com.BiscoitinhosVovoLiva.Servico.Implementacoes
         }
 
         /// <summary>
-        /// Consulta um pedido especifico pelo identificador (Login).
+        /// Atualiza os dados mutaveis (quantidade e status de pagamento) do pedido da semana desejada.
+        /// </summary>
+        /// <param name="pedidoNovo"></param>
+        /// <param name="numeroSemana"></param>
+        public void Atualizar(Pedido pedidoNovo, int numeroSemana)
+        {
+            ValidaLoginUsuario(pedidoNovo.Login);
+            ValidaQtdadePaes(pedidoNovo.Qtdade);
+
+            var todosPedidos = new List<Pedido>();
+            if (numeroSemana == 0)
+            {
+                todosPedidos = Listar();
+            }
+            else
+            {
+                todosPedidos = Listar(numeroSemana);
+            }
+
+
+            var pedidoExistente = todosPedidos.FirstOrDefault(x => string.Equals(x.Login, pedidoNovo.Login));
+            if (pedidoExistente == null)
+            {
+                throw new ApplicationException("ERRO_PEDIDO_NAO_ENCONTRADO");
+            }
+            else
+            {
+                pedidoExistente.Qtdade = pedidoNovo.Qtdade;
+                pedidoExistente.Pagou = pedidoNovo.Pagou;
+                pedidoExistente.Pegou = pedidoNovo.Pegou;
+            }
+
+            PedidoRepositorio.Atualizar(todosPedidos, numeroSemana);
+        }
+
+        /// <summary>
+        /// Lista todos os pedidos cadastrados.
+        /// </summary>
+        /// <returns></returns>
+        public List<Pedido> Listar()
+        {
+            return PedidoRepositorio.Listar();
+        }
+
+        /// <summary>
+        /// Lista todos os pedidos cadastrados de uma determinada semana.
+        /// </summary>
+        /// <param name="numeroSemana"></param>
+        /// <returns></returns>
+        public List<Pedido> Listar(int numeroSemana)
+        {
+            try
+            {
+                return PedidoRepositorio.Listar(numeroSemana);
+            }
+            catch (FileNotFoundException)
+            {
+                throw new ApplicationException("ERRO_SEMANA_NAO_ENCONTRADA");
+            }
+            catch (Exception)
+            {
+                throw new ApplicationException("ERRO_MSG_PADRAO");
+            }
+        }
+
+        /// <summary>
+        /// Consulta um pedido especifico da semana atual pelo login.
         /// </summary>
         /// <param name="login"></param>
         /// <returns></returns>
-        public Pedido ConsultarPorLogin(string login)
+        public Pedido ConsultarPedido(string login)
         {
             return Listar().FirstOrDefault(x => string.Equals(x.Login, login));
+        }
+
+        /// <summary>
+        /// Consulta um pedido especifico da semana desejada pelo login.
+        /// </summary>
+        /// <param name="login"></param>
+        /// <param name="numeroSemana"></param>
+        /// <returns></returns>
+        public Pedido ConsultarPedido(string login, int numeroSemana)
+        {
+            if (numeroSemana == 0)
+            {
+                return PedidoRepositorio.Listar().FirstOrDefault(x => string.Equals(x.Login, login));
+            }
+            else
+            {
+                return PedidoRepositorio.Listar(numeroSemana).FirstOrDefault(x => string.Equals(x.Login, login));
+            }
         }
 
         #region Validações

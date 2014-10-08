@@ -60,12 +60,18 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        @Html.ActionLink("Pão de Queijo", "Index", "PaoDeQueijo", null, new { @class = "navbar-brand" })
+                        @Html.ActionLink("Pão de Queijo", "Index", "Home", null, new { @class = "navbar-brand" })
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
+                            <li>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    @Html.ActionLink("Realizar Pedido", "Index", "PaoDeQueijo")
+                                }
+                            </li>
                             <li>
                                 @if (string.Equals(User.Identity.Name, "andre.bacaglini"))
                                 {
@@ -78,8 +84,7 @@
                                 @if (User.Identity.IsAuthenticated)
                                 {
                                     <p class="navbar-text navbar-right">
-                                        Bem vindo @User.Identity.Name | 
-                                    @Html.ActionLink("Sair", "Logout", "Account")
+                                        Bem vindo, @User.Identity.Name | @Html.ActionLink("Sair", "Logout", "Account")
                                     </p>
                                 }
                                 else

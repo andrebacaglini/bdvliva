@@ -177,7 +177,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.Servico.LDAP
                 throw new ApplicationException("ERRO_USUARIO_NAO_ENCONTRADO");
             }
 
-            return registros.Any(x => ValidarRegistro(x.GetDirectoryEntry(), senha));
+            return registros.Any(x => x != null && ValidarRegistro(x.GetDirectoryEntry(), senha));
         }
 
         #endregion

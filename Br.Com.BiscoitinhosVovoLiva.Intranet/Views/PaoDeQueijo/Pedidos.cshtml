@@ -7,7 +7,17 @@
 <div class="col-md-8">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title">Lista de pedidos da semana - Total de pães de queijo <span id="totalPdq" class="badge"></span></h3>
+            <div class="row">
+                <div class="col-md-1 text-center">
+                    <button id="-1" class="btn btn-primary btn-sm navegacaoSemana"><span class="glyphicon glyphicon-arrow-left"></span></button>
+                </div>
+                <div class="col-md-10 text-center">
+                    <h3 class="panel-title">Lista de pedidos da semana <span id="numeroSemana"></span> - Total de pães de queijo <span id="totalPdq" class="badge"></span></h3>
+                </div>
+                <div class="col-md-1 text-justify">
+                    <button id="1" class="btn btn-primary btn-sm navegacaoSemana"><span class="glyphicon glyphicon-arrow-right"></span></button>
+                </div>
+            </div>
         </div>
         <div class="panel-body">
             <table id="grid-data" class="table table-condensed table-hover table-striped">
@@ -46,8 +56,13 @@
                      refresh: "Atualizar",
                      search: "E-mail"
                  },
+                 requestHandler: function (request) {
+                     request.numeroSemana = $('#numeroSemana').html() == "" ? 0 : parseInt($('#numeroSemana').html());
+                     return request;
+                 },
                  responseHandler: function (response) {
                      $('#totalPdq').html(response.totalpdq);
+                     $('#numeroSemana').html(response.semanaAtual);
                      return response;
                  },
                  formatters: {
@@ -78,25 +93,26 @@
              })
 
         function Pagou(login, pagou) {
+            var numeroSemana = $('#numeroSemana').html() == "" ? 0 : parseInt($('#numeroSemana').html());
             $.ajax({
                 url: '@Url.Action("Pagar")',
                 type: "POST",
-                data: { login: login, pagou: !pagou },
+                data: { login: login, pagou: !pagou, numeroSemana: numeroSemana },
                 success: OnSuccessCallback,
                 error: OnErrorCallback
             });
          }
 
         function Pegou(login, pegou) {
+            var numeroSemana = $('#numeroSemana').html() == "" ? 0 : parseInt($('#numeroSemana').html());
             $.ajax({
                 url: '@Url.Action("Pegar")',
                 type: "POST",
-                data: { login: login, pegou: !pegou },
+                data: { login: login, pegou: !pegou, numeroSemana: numeroSemana },
                 success: OnSuccessCallback,
                 error: OnErrorCallback
             });
         }
-
 
         function OnSuccessCallback(data) {
             //Not working: jquery-bootgrid
@@ -115,5 +131,16 @@
 
         }
 
+        //Registra a função de troca de semana para os controles de navegação
+        $('.navegacaoSemana').click(function (e) {
+            var semanaAtual = parseInt($('#numeroSemana').html());
+            if ($(this)[0].id > 0) {
+                semanaAtual = semanaAtual + 1;
+            } else {
+                semanaAtual = semanaAtual - 1;
+            }
+            $('#numeroSemana').html(semanaAtual)
+            $('button[title=Atualizar]').click();
+        });
     });
 </script>

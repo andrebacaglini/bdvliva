@@ -121,6 +121,10 @@
     <value>E-mail inválido.</value>
     <comment>Mensagen de erro para e-mail invalido.</comment>
   </data>
+  <data name="ERRO_ENVIAR_EMAIL" xml:space="preserve">
+    <value>Ocorreu um erro ao enviar e-mail.</value>
+    <comment>Mensagem de erro ao enviar email.</comment>
+  </data>
   <data name="ERRO_MSG_PADRAO" xml:space="preserve">
     <value>Ocorreu um erro inesperado.</value>
     <comment>Mensagem de erro padrão.</comment>
@@ -143,6 +147,14 @@
   <data name="ERRO_USUARIO_NAO_ENCONTRADO" xml:space="preserve">
     <value>Usuário não encontrado.</value>
     <comment>Mensagem de erro para usuário não encontrado.</comment>
+  </data>
+  <data name="SUCESSO_EMAIL_ATUALIZAR" xml:space="preserve">
+    <value>&lt;h3&gt;Olá {0},&lt;/h3&gt;&lt;br /&gt;Seu pedido foi atualizado com sucesso!&lt;br /&gt;Agora você receberá &lt;b&gt;{1}&lt;/b&gt; {2} de queijo.&lt;br /&gt;&lt;br /&gt;Obrigado por atualizar seu pedido e até sexta!&lt;br /&gt;&lt;br /&gt;Att,&lt;br /&gt;André Bacaglini&lt;br /&gt;{3}</value>
+    <comment>Corpo do email para pedidos atualizados</comment>
+  </data>
+  <data name="SUCESSO_EMAIL_REALIZAR" xml:space="preserve">
+    <value>&lt;h3&gt;Olá {0},&lt;/h3&gt;&lt;br /&gt;Seu pedido foi realizado com sucesso!&lt;br /&gt;Você pediu &lt;b&gt;{1}&lt;/b&gt; {2} de queijo.&lt;br /&gt;&lt;br /&gt;Obrigado por realizar seu pedido e até sexta!&lt;br /&gt;&lt;br /&gt;Att,&lt;br /&gt;André Bacaglini&lt;br /&gt;{3}</value>
+    <comment>Corpo do email para pedidos realizados</comment>
   </data>
   <data name="SUCESSO_PEDIDO_ATUALIZADO" xml:space="preserve">
     <value>Seu pedido foi atualizado com sucesso!</value>

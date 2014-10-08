@@ -66,7 +66,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
         private void CriaCookieAutenticacao(string usuario)
         {
             var authTicket = new FormsAuthenticationTicket(1, usuario, DateTime.Now,
-                                      DateTime.Now.AddSeconds(30), true, "");
+                                      DateTime.Now.AddMinutes(30), true, "");
 
             string cookieContents = FormsAuthentication.Encrypt(authTicket);
             var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, cookieContents)

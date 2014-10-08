@@ -1,30 +1,42 @@
 ﻿@{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    var dominio = "@cast.com.br";
+    Layout = "~/Views/Shared/_Layout.cshtml";    
 }
 
-<div class="col-md-4"></div>
-<div class="col-md-4">
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title">Pão de Queijo da Vovó - Pedido</h3>
-        </div>
-        <div class="panel-body">
-            <form id="formPedido" role="form" action="Home/Create" method="post">                
-                <div class="form-group">
-                    <span class="help-block">Informe a quantidade desejada.</span>
-                    <input type="number" class="form-control" id="qtdade" min="1" max="2" pattern="\d+" required="required">
-                </div>
-                <button id="btnRealizarPedido" type="button" class="btn btn-primary btn-block">Realizar Pedido</button>
-                <button id="btnAtualizarPedido" type="button" class="btn btn-default btn-block">Atualizar Pedido</button>
-                <button id="btnSubmit" type="submit" class="hide" />
-            </form>
+
+@if (DateTime.Now.DayOfWeek == DayOfWeek.Friday)
+{
+    <div class="jumbotron">
+        <h1>Hoje é sexta-feira!</h1>
+        <p>Desculpe mas não é possivel realizar pedidos na <span class="label label-primary">sexta-feira</span>.</p>
+        <p>Aguarde até a próxima semana para realizar seu pedido!</p>
+        <p><span class="label label-warning">Lembre-se</span> de realiza-lo até quinta-feira para não ficar sem seu pão de queijo!</p>
+        <p>Obrigado!</p>
+    </div>
+}
+else
+{    
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title text-center">Pedido</h3>
+            </div>
+            <div class="panel-body">
+                <form id="formPedido" role="form" action="Home/Create" method="post">
+                    <div class="form-group">
+                        @Html.TextBox("qtdade", null, new { @type = "number", @class = "form-control", @id = "qtdade", @min = 1, @max = 2, @patter = @"\d+", @required = "required", @placeholder = "Quantidade de pães" })
+                    </div>                    
+                    <button id="btnRealizarPedido" type="button" class="btn btn-primary btn-block">Realizar Pedido</button>
+                    <button id="btnAtualizarPedido" type="button" class="btn btn-default btn-block">Atualizar Pedido</button>
+                    <button id="btnSubmit" type="submit" class="hide" />
+                </form>
+            </div>
         </div>
     </div>
+    <div class="col-md-4"></div>
+}
 
-</div>
-<div class="col-md-4"></div>
 
 
 
@@ -32,7 +44,7 @@
     $(document).ready(function () {
 
         $('#btnRealizarPedido').click(function () {
-            if ($("#formPedido")[0].checkValidity()) {                
+            if ($("#formPedido")[0].checkValidity()) {
                 var qtd = $('#qtdade').val();
 
                 $.ajax({
@@ -50,9 +62,9 @@
         });
 
         $('#btnAtualizarPedido').click(function () {
-            if ($("#formPedido")[0].checkValidity()) {                
+            if ($("#formPedido")[0].checkValidity()) {
                 var qtd = $('#qtdade').val();
-                
+
                 $.ajax({
                     url: '@Url.Action("AtualizarPedido", "PaoDeQueijo")',
                     type: "POST",

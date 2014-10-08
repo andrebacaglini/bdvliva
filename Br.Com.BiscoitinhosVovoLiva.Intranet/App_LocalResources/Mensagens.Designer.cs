@@ -70,6 +70,15 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.App_LocalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ocorreu um erro ao enviar e-mail..
+        /// </summary>
+        internal static string ERRO_ENVIAR_EMAIL {
+            get {
+                return ResourceManager.GetString("ERRO_ENVIAR_EMAIL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ocorreu um erro inesperado..
         /// </summary>
         internal static string ERRO_MSG_PADRAO {
@@ -120,6 +129,24 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.App_LocalResources {
         internal static string ERRO_USUARIO_NAO_ENCONTRADO {
             get {
                 return ResourceManager.GetString("ERRO_USUARIO_NAO_ENCONTRADO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;h3&gt;Olá {0},&lt;/h3&gt;&lt;br /&gt;Seu pedido foi atualizado com sucesso!&lt;br /&gt;Agora você receberá &lt;b&gt;{1}&lt;/b&gt; {2} de queijo.&lt;br /&gt;&lt;br /&gt;Obrigado por atualizar seu pedido e até sexta!&lt;br /&gt;&lt;br /&gt;Att,&lt;br /&gt;André Bacaglini&lt;br /&gt;{3}.
+        /// </summary>
+        internal static string SUCESSO_EMAIL_ATUALIZAR {
+            get {
+                return ResourceManager.GetString("SUCESSO_EMAIL_ATUALIZAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;h3&gt;Olá {0},&lt;/h3&gt;&lt;br /&gt;Seu pedido foi realizado com sucesso!&lt;br /&gt;Você pediu &lt;b&gt;{1}&lt;/b&gt; {2} de queijo.&lt;br /&gt;&lt;br /&gt;Obrigado por realizar seu pedido e até sexta!&lt;br /&gt;&lt;br /&gt;Att,&lt;br /&gt;André Bacaglini&lt;br /&gt;{3}.
+        /// </summary>
+        internal static string SUCESSO_EMAIL_REALIZAR {
+            get {
+                return ResourceManager.GetString("SUCESSO_EMAIL_REALIZAR", resourceCulture);
             }
         }
         

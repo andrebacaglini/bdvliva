@@ -12,10 +12,17 @@ namespace Br.Com.BiscoitinhosVovoLiva.Servico.Intefaces
         void Salvar(Pedido pedido);
 
         /// <summary>
-        /// Atualiza os dados mutaveis (quantidade e status de pagamento) do pedido.
+        /// Atualiza os dados mutaveis (quantidade e status de pagamento) do pedido atual
         /// </summary>
         /// <param name="pedido"></param>
         void Atualizar(Pedido pedido);
+
+        /// <summary>
+        /// Atualiza os dados mutaveis (quantidade e status de pagamento) do pedido da semana desejada.
+        /// </summary>
+        /// <param name="pedido"></param>
+        /// <param name="numeroSemana"></param>
+        void Atualizar(Pedido pedido, int numeroSemana);
 
         /// <summary>
         /// Lista todos os pedidos cadastrados.
@@ -24,10 +31,27 @@ namespace Br.Com.BiscoitinhosVovoLiva.Servico.Intefaces
         List<Pedido> Listar();
 
         /// <summary>
-        /// Consulta um pedido especifico pelo identificador (Login).
+        /// Lista todos os pedidos cadastrados de uma determinada semana.
+        /// </summary>
+        /// <param name="numeroSemana"></param>
+        /// <returns></returns>
+        List<Pedido> Listar(int numeroSemana);
+
+        /// <summary>
+        /// Consulta um pedido especifico da semana atual pelo login.
         /// </summary>
         /// <param name="login"></param>
         /// <returns></returns>
-        Pedido ConsultarPorLogin(string login);
+        Pedido ConsultarPedido(string login);
+
+        /// <summary>
+        /// Consulta um pedido especifico da semana desejada pelo login.
+        /// </summary>
+        /// <param name="login"></param>
+        /// <param name="numeroSemana"></param>
+        /// <returns></returns>
+        Pedido ConsultarPedido(string login, int numeroSemana);
+
+        
     }
 }

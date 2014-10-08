@@ -7,17 +7,16 @@
 <div class="col-md-4">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title">Área restrita - Login</h3>
+            <h3 class="panel-title text-center">Área restrita</h3>
         </div>
         <div class="panel-body">
+            <p class="text-center">Use suas credenciais da Cast para entrar.</p>
             <form id="formLogin" role="form" method="post">
                 <div class="form-group">
-                    <span class="help-block">Usuário</span>
-                    @Html.TextBox("usuario", null, new { @id = "usuario", @class = "form-control", @required = "required" })
+                    @Html.TextBox("usuario", null, new { @id = "usuario", @class = "form-control", @required = "required", @placeholder = "Usuário" })
                 </div>
                 <div class="form-group">
-                    <span class="help-block">Senha</span>
-                    @Html.TextBox("senha", null, new { @type = "password", @id = "senha", @class = "form-control", @required = "required" })
+                    @Html.TextBox("senha", null, new { @type = "password", @id = "senha", @class = "form-control", @required = "required", @placeHolder = "Senha" })
                 </div>
                 <button id="btnLogin" type="submit" class="btn btn-primary btn-block">Entrar</button>
             </form>

@@ -9,6 +9,10 @@ namespace Br.Com.BiscoitinhosVovoLiva.Repositorio
 
         List<Pedido> Listar();
 
+        List<Pedido> Listar(int numeroSemana);
+
         void Atualizar(List<Pedido> todosPedidos);
+
+        void Atualizar(List<Pedido> todosPedidos, int numeroSemana);        
     }
 }

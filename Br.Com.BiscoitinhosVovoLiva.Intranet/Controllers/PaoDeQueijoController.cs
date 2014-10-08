@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Net.Mail;
 using System.Web.Mvc;
 using Br.Com.BiscoitinhosVovoLiva.Entidade;
 using Br.Com.BiscoitinhosVovoLiva.Intranet.App_LocalResources;
@@ -50,7 +52,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
             {
                 var pedido = ExtrairPedidoForm(form);
                 ServicoPedido.Salvar(pedido);
-                //TODO: Enviar email de comprovante de pedido.
+                //EnviarEmail(Mensagens.SUCESSO_EMAIL_REALIZAR, pedido);
                 return TrataJsonResult(ID_SUCESSO, Mensagens.SUCESSO_PEDIDO_REALIZADO);
             }
             catch (Exception e)
@@ -66,7 +68,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
             {
                 var pedido = ExtrairPedidoForm(form);
                 ServicoPedido.Atualizar(pedido);
-                //TODO: Enviar email de comprovante da atualização do pedido.
+                //EnviarEmail(Mensagens.SUCESSO_EMAIL_ATUALIZAR, pedido);
                 return TrataJsonResult(ID_SUCESSO, Mensagens.SUCESSO_PEDIDO_ATUALIZADO);
             }
             catch (Exception e)
@@ -75,13 +77,14 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
             }
         }
 
-        public JsonResult Pagar(string login, bool pagou)
+        [HttpPost]
+        public JsonResult Pagar(string login, bool pagou, int numeroSemana)
         {
             try
             {
-                var pedido = ServicoPedido.ConsultarPorLogin(login);
+                var pedido = ServicoPedido.ConsultarPedido(login, numeroSemana);
                 pedido.Pagou = pagou;
-                ServicoPedido.Atualizar(pedido);
+                ServicoPedido.Atualizar(pedido, numeroSemana);
 
                 var retorno = new JsonResult();
                 retorno.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
@@ -94,13 +97,14 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
             }
         }
 
-        public JsonResult Pegar(string login, bool pegou)
+        [HttpPost]
+        public JsonResult Pegar(string login, bool pegou, int numeroSemana)
         {
             try
             {
-                var pedido = ServicoPedido.ConsultarPorLogin(login);
+                var pedido = ServicoPedido.ConsultarPedido(login, numeroSemana);
                 pedido.Pegou = pegou;
-                ServicoPedido.Atualizar(pedido);
+                ServicoPedido.Atualizar(pedido, numeroSemana);
 
                 var retorno = new JsonResult();
                 retorno.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
@@ -114,55 +118,32 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
         }
 
         //TODO: Refatorar/Melhorar
+        [HttpPost]
         public JsonResult ListarPedidos()
         {
             var paginaAtual = Convert.ToInt32(Request.Params["current"]);
             var qtdadePorPagina = Convert.ToInt32(Request.Params["rowCount"]);
             var parametroConsulta = Request.Params["searchPhrase"];
+            var numeroSemana = Convert.ToInt32(Request.Params["numeroSemana"]);
 
-            var listaPedidos = ServicoPedido.Listar();
-
-            var totalDePaes = 0;
-            listaPedidos.ForEach(x => totalDePaes += x.Qtdade);
-
-            OrdenaPedidos(ref listaPedidos);
-
-            var listaFiltradaPaginada = new List<Pedido>();
-            var totalRegistros = 0;
-
-            if (qtdadePorPagina != -1)
+            try
             {
-                var toSkip = paginaAtual == 1 ? 0 : (paginaAtual - 1) * qtdadePorPagina;
+                var listaPedidos = ConsultaPedidos(numeroSemana);
 
-                var listaFiltrada = listaPedidos
-                    .Where(FiltroEmail(parametroConsulta))
-                    .ToList();
+                var totalDePaes = 0;
+                listaPedidos.ForEach(x => totalDePaes += x.Qtdade);
 
-                totalRegistros = listaFiltrada.Count;
+                OrdenarPedidos(ref listaPedidos);
 
-                listaFiltradaPaginada = listaFiltrada
-                    .Skip(toSkip)
-                    .Take(qtdadePorPagina)
-                    .ToList();
+                var totalRegistros = 0;
+                var listaFiltradaPaginada = FiltrarPaginarPedidos(listaPedidos, ref totalRegistros);
+
+                return CriaJsonRetornoJqueryBootgrid(paginaAtual, qtdadePorPagina, numeroSemana, totalDePaes, totalRegistros, listaFiltradaPaginada);
             }
-            else
+            catch (Exception)
             {
-                listaFiltradaPaginada = listaPedidos
-                    .Where(FiltroEmail(parametroConsulta))
-                    .ToList();
-                totalRegistros = listaFiltradaPaginada.Count;
+                return CriaJsonRetornoJqueryBootgrid(0, 0, numeroSemana, 0, 0, new List<Pedido>());
             }
-
-            var jsonResponse = new
-            {
-                current = paginaAtual,
-                rowCount = qtdadePorPagina,
-                rows = listaFiltradaPaginada.ToArray(),
-                total = totalRegistros,
-                totalpdq = totalDePaes
-            };
-
-            return Json(jsonResponse);
         }
 
         #endregion
@@ -197,7 +178,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
         /// </summary>
         /// <param name="listaPedidos">Todos os pedidos para ordenação</param>
         /// <returns>Lista ordenada</returns>
-        private List<Pedido> OrdenaPedidos(ref List<Pedido> listaPedidos)
+        private List<Pedido> OrdenarPedidos(ref List<Pedido> listaPedidos)
         {
             if (!string.IsNullOrEmpty(Request.Params["sort[Email]"]))
             {
@@ -284,6 +265,100 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
                     break;
             }
             return retorno;
+        }
+
+        private List<Pedido> ConsultaPedidos(int numeroSemana)
+        {
+            var listaPedidos = new List<Pedido>();
+            if (numeroSemana != 0)
+            {
+                listaPedidos = ServicoPedido.Listar(numeroSemana);
+            }
+            else
+            {
+                listaPedidos = ServicoPedido.Listar();
+            }
+            return listaPedidos;
+        }
+
+        private List<Pedido> FiltrarPaginarPedidos(List<Pedido> listaPedidos, ref int totalRegistros)
+        {
+            var listaFiltradaPaginada = new List<Pedido>();
+            var paginaAtual = Convert.ToInt32(Request.Params["current"]);
+            var qtdadePorPagina = Convert.ToInt32(Request.Params["rowCount"]);
+            var parametroConsulta = Request.Params["searchPhrase"];
+
+            if (qtdadePorPagina != -1)
+            {
+                var toSkip = paginaAtual == 1 ? 0 : (paginaAtual - 1) * qtdadePorPagina;
+
+                var listaFiltrada = listaPedidos
+                    .Where(FiltroEmail(parametroConsulta))
+                    .ToList();
+
+                totalRegistros = listaFiltrada.Count;
+
+                listaFiltradaPaginada = listaFiltrada
+                    .Skip(toSkip)
+                    .Take(qtdadePorPagina)
+                    .ToList();
+            }
+            else
+            {
+                listaFiltradaPaginada = listaPedidos
+                    .Where(FiltroEmail(parametroConsulta))
+                    .ToList();
+                totalRegistros = listaFiltradaPaginada.Count;
+            }
+            return listaFiltradaPaginada;
+        }
+
+        private int GetNumeroSemana()
+        {
+            var data = DateTime.Now.Date;
+            DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(data);
+            if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
+            {
+                data = data.AddDays(3);
+            }
+            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(data, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+        }
+
+        private JsonResult CriaJsonRetornoJqueryBootgrid(int paginaAtual, int qtdadePorPagina, int numeroSemana, int totalDePaes, int totalRegistros, List<Pedido> listaFiltradaPaginada)
+        {
+            var jsonResponse = new
+            {
+                current = paginaAtual,
+                rowCount = qtdadePorPagina,
+                rows = listaFiltradaPaginada.ToArray(),
+                total = totalRegistros,
+                totalpdq = totalDePaes,
+                semanaAtual = numeroSemana == 0 ? GetNumeroSemana() : numeroSemana
+
+            };
+            return Json(jsonResponse);
+        }
+
+        private void EnviarEmail(string mensagem, Pedido pedido)
+        {
+            try
+            {
+                using (SmtpClient client = new SmtpClient())
+                {
+                    using (var msg = new MailMessage("andre.bacaglini@cast.com.br", pedido.Email))
+                    {
+                        var texto = pedido.Qtdade == 1 ? "pão" : "pães";
+                        msg.IsBodyHtml = true;
+                        msg.Subject = "[PãoDeQueijo] - Pedido realizado com sucesso!";
+                        msg.Body = string.Format(mensagem, pedido.Login, pedido.Qtdade, texto, DateTime.Now.ToShortDateString());
+                        client.Send(msg);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw new ApplicationException("ERRO_ENVIAR_EMAIL");
+            }
         }
 
         #endregion
