@@ -1,6 +1,8 @@
 ﻿@{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";    
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var periodoInicio = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 0, 0);
+    var periodoFim = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 17, 0, 0);
 }
 
 
@@ -10,11 +12,11 @@
         <h1>Hoje é sexta-feira!</h1>
         <p>Desculpe mas não é possivel realizar pedidos na <span class="label label-primary">sexta-feira</span>.</p>
         <p>Aguarde até a próxima semana para realizar seu pedido!</p>
-        <p><span class="label label-warning">Lembre-se</span> de realiza-lo até quinta-feira para não ficar sem seu pão de queijo!</p>
+        <p><span class="label label-warning">Lembre-se</span> de realiza-lo até quinta-feira das 08:00 até as 17:00 para não ficar sem seu pão de queijo!</p>
         <p>Obrigado!</p>
     </div>
 }
-else
+else if (DateTime.Now >= periodoInicio && DateTime.Now <= periodoFim)
 {    
     <div class="col-md-4"></div>
     <div class="col-md-4">
@@ -26,7 +28,7 @@ else
                 <form id="formPedido" role="form" action="Home/Create" method="post">
                     <div class="form-group">
                         @Html.TextBox("qtdade", null, new { @type = "number", @class = "form-control", @id = "qtdade", @min = 1, @max = 2, @patter = @"\d+", @required = "required", @placeholder = "Quantidade de pães" })
-                    </div>                    
+                    </div>
                     <button id="btnRealizarPedido" type="button" class="btn btn-primary btn-block">Realizar Pedido</button>
                     <button id="btnAtualizarPedido" type="button" class="btn btn-default btn-block">Atualizar Pedido</button>
                     <button id="btnSubmit" type="submit" class="hide" />
@@ -35,6 +37,16 @@ else
         </div>
     </div>
     <div class="col-md-4"></div>
+}
+else
+{
+    <div class="jumbotron">
+        <h1>Horário comercial!</h1>
+        <p>Desculpe mas não é possivel realizar pedidos fora do horário <span class="label label-primary">comercial</span>.</p>
+        <p>Procure realizar seu pedido entre as <span class="label label-danger">08:00</span> e <span class="label label-danger">17:00</span> horas.</p>
+        <p><span class="label label-warning">Lembre-se</span> tanbém que só é possivel realizar pedidos até quinta-feira!</p>
+        <p>Obrigado!</p>
+    </div>
 }
 
 

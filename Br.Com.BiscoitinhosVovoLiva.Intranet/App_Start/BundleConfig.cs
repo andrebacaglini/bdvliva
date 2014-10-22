@@ -42,7 +42,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet
             #region Bundles JS Bootstrap
             bundles.Add(new ScriptBundle("~/bundles/bootstrap/js").Include(
                         "~/Scripts/bootstrap-3.2.0/bootstrap.min.js"));
-             #endregion
+            #endregion
 
             #region Bundles JS jQuery-Bootgrid
             bundles.Add(new ScriptBundle("~/bundles/jquery-bootgrid/js").Include(
@@ -59,7 +59,8 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet
 
             #region Bundles CSS Comuns
             bundles.Add(new StyleBundle("~/bundles/css")
-                .Include("~/Content/css/carousel.css"));
+                .Include("~/Content/css/carousel.css")
+                .Include("~/Content/css/grayscale.css"));
             #endregion
 
             #region Bundles CSS jQuery-Bootgrid

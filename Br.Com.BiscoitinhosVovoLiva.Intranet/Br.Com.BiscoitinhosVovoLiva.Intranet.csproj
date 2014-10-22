@@ -158,13 +158,15 @@
     <Content Include="Content\bootstrap-3.2.0\css\bootstrap.min.css" />
     <Content Include="Content\bootstrap-3.2.0\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\css\carousel.css" />
+    <Content Include="Content\css\grayscale.css" />
     <Content Include="Content\css\jquery.bootgrid-1.1.0\jquery.bootgrid.css" />
+    <Content Include="Content\img\Lighthouse140x140.png" />
+    <Content Include="Content\img\Penguins140x140bw.jpg" />
     <Content Include="Content\img\loading.gif" />
     <Content Include="Content\img\Hydrangeas.jpg" />
     <Content Include="Content\img\Jellyfish.jpg" />
     <Content Include="Content\img\Koala.jpg" />
     <Content Include="Content\img\Lighthouse.jpg" />
-    <Content Include="Content\img\Lighthouse140x140.jpg" />
     <Content Include="Content\img\Penguins.jpg" />
     <Content Include="Content\img\Penguins140x140.jpg" />
     <Content Include="Global.asax" />
@@ -199,10 +201,12 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\AcessoNegado.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\PaoDeQueijo\About.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Biscoitos\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -52,7 +52,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
             {
                 var pedido = ExtrairPedidoForm(form);
                 ServicoPedido.Salvar(pedido);
-                //EnviarEmail(Mensagens.SUCESSO_EMAIL_REALIZAR, pedido);
+                EnviarEmail(Mensagens.SUCESSO_EMAIL_REALIZAR, pedido);
                 return TrataJsonResult(ID_SUCESSO, Mensagens.SUCESSO_PEDIDO_REALIZADO);
             }
             catch (Exception e)
@@ -68,7 +68,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
             {
                 var pedido = ExtrairPedidoForm(form);
                 ServicoPedido.Atualizar(pedido);
-                //EnviarEmail(Mensagens.SUCESSO_EMAIL_ATUALIZAR, pedido);
+                EnviarEmail(Mensagens.SUCESSO_EMAIL_ATUALIZAR, pedido);
                 return TrataJsonResult(ID_SUCESSO, Mensagens.SUCESSO_PEDIDO_ATUALIZADO);
             }
             catch (Exception e)
@@ -165,6 +165,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
                 p.Qtdade = Convert.ToInt32(form["qtd"]);
                 p.Pegou = false;
                 p.Pagou = false;
+                p.Data = DateTime.Now;
                 return p;
             }
             catch (Exception ex)
