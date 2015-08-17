@@ -191,7 +191,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.Servico.Implementacoes
         /// <param name="qtdade"></param>
         private void ValidaQtdadePaes(int qtdade)
         {
-            if (qtdade < 1 || qtdade > 2)
+            if (qtdade < 1 || qtdade > 10)
             {
                 throw new ApplicationException("ERRO_QTDADE_INVALIDA");
             }

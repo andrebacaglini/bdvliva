@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Br.Com.BiscoitinhosVovoLiva
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Br.Com.BiscoitinhosVovoLiva.Bootstrapper", "Br.Com.BiscoitinhosVovoLiva.Bootstrapper\Br.Com.BiscoitinhosVovoLiva.Bootstrapper.csproj", "{55E6F032-E512-4B64-82C7-63311D822611}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Br.Com.BicoitinhosVovoLiva.RepositorioSQLSERVER", "Br.Com.BicoitinhosVovoLiva.RepositórioSQLSERVER\Br.Com.BicoitinhosVovoLiva.RepositorioSQLSERVER.csproj", "{EA6DEE22-A541-46B8-9E8A-D75866A4B50C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{55E6F032-E512-4B64-82C7-63311D822611}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55E6F032-E512-4B64-82C7-63311D822611}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55E6F032-E512-4B64-82C7-63311D822611}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA6DEE22-A541-46B8-9E8A-D75866A4B50C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA6DEE22-A541-46B8-9E8A-D75866A4B50C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA6DEE22-A541-46B8-9E8A-D75866A4B50C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA6DEE22-A541-46B8-9E8A-D75866A4B50C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -15,8 +15,12 @@ img.grayscale:hover {
     -webkit-filter: grayscale(0%);
 }
 
-svg {
-    background:url(../img/Lighthouse140x140.png);
+svg#svgBiscoito {
+    background:url(../img/folder_biscoitinhos400x507.png);
+}
+
+svg#svgPdq {
+    background:url(../img/folder_pdq400x507.png);
 }
 
 svg image {
@@ -28,7 +32,7 @@ svg image:hover {
 }
 
 div.half-grayscale-container {
-    background: url(../img/Lighthouse140x140.png) no-repeat; /* IE6-9 */
+    background: url(../img/folder_biscoitinhos400x507.png) no-repeat; /* IE6-9 */
 }
 
 img.half-grayscale {

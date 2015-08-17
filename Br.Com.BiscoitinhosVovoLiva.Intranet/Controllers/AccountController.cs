@@ -30,11 +30,8 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
                 {
                     CriaCookieAutenticacao(usuario);
                     if (!string.IsNullOrEmpty(ReturnUrl))
-                    {
-                        var array = ReturnUrl.Split('/');
-                        var action = array.Length > 2 ? array[2] : "Index";
-                        var controller = array[1];
-                        return RedirectToAction(action, controller);
+                    {                       
+                        return Redirect(ReturnUrl);
                     }
                     else
                     {

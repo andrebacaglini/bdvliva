@@ -27,7 +27,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.RepositorioJSON
         public void Salvar(Pedido pedido)
         {
             var json = JsonConvert.SerializeObject(pedido);
-            using (var writer = File.AppendText(RecuperaCaminhoCompleto(GetNumeroSemana())))
+            using (var writer = File.AppendText(RecuperaCaminhoCompleto(GetNumeroSemana(), GetAno())))
             {
                 writer.WriteLine(json);
             }
@@ -36,7 +36,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.RepositorioJSON
         public List<Pedido> Listar()
         {
             var lista = new List<Pedido>();
-            foreach (var linha in File.ReadLines(RecuperaCaminhoCompleto(GetNumeroSemana())))
+            foreach (var linha in File.ReadLines(RecuperaCaminhoCompleto(GetNumeroSemana(), GetAno())))
             {
                 var pedido = JsonConvert.DeserializeObject<Pedido>(linha);
                 lista.Add(pedido);
@@ -51,7 +51,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.RepositorioJSON
             {
                 sbTodosPedidos.AppendLine(JsonConvert.SerializeObject(pedido));
             }
-            File.WriteAllText(RecuperaCaminhoCompleto(GetNumeroSemana()), sbTodosPedidos.ToString());
+            File.WriteAllText(RecuperaCaminhoCompleto(GetNumeroSemana(), GetAno()), sbTodosPedidos.ToString());
         }
 
         public void Atualizar(List<Pedido> todosPedidos, int numeroSemana)
@@ -61,13 +61,13 @@ namespace Br.Com.BiscoitinhosVovoLiva.RepositorioJSON
             {
                 sbTodosPedidos.AppendLine(JsonConvert.SerializeObject(pedido));
             }
-            File.WriteAllText(RecuperaCaminhoCompleto(numeroSemana.ToString()), sbTodosPedidos.ToString());
+            File.WriteAllText(RecuperaCaminhoCompleto(numeroSemana.ToString(), GetAno()), sbTodosPedidos.ToString());
         }
 
         public List<Pedido> Listar(int numeroSemana)
         {
             var lista = new List<Pedido>();
-            foreach (var linha in File.ReadLines(RecuperaCaminhoCompleto(numeroSemana.ToString())))
+            foreach (var linha in File.ReadLines(RecuperaCaminhoCompleto(numeroSemana.ToString(), GetAno())))
             {
                 var pedido = JsonConvert.DeserializeObject<Pedido>(linha);
                 lista.Add(pedido);
@@ -79,9 +79,9 @@ namespace Br.Com.BiscoitinhosVovoLiva.RepositorioJSON
 
         private void VerificaExistenciaArquivoSemana()
         {
-            if (!File.Exists(RecuperaCaminhoCompleto(GetNumeroSemana())))
+            if (!File.Exists(RecuperaCaminhoCompleto(GetNumeroSemana(), GetAno())))
             {
-                File.Create(RecuperaCaminhoCompleto(GetNumeroSemana()));
+                File.Create(RecuperaCaminhoCompleto(GetNumeroSemana(), GetAno()));
             }
         }
 
@@ -104,14 +104,25 @@ namespace Br.Com.BiscoitinhosVovoLiva.RepositorioJSON
             return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(data, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday).ToString();
         }
 
-        private string RecuperaNomeArquivoJson(string numeroSemana)
+        private string GetAno()
         {
-            return string.Format(PADRAO_NOME_JSON, DateTime.Now.Year, numeroSemana);
+            var data = DateTime.Now.Date;
+            DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(data);
+            if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
+            {
+                data = data.AddDays(3);
+            }
+            return data.Year.ToString();
         }
 
-        private string RecuperaCaminhoCompleto(string numeroSemana)
+        private string RecuperaNomeArquivoJson(string numeroSemana, string ano)
         {
-            return string.Format(@"{0}\{1}", CAMINHO_JSON, RecuperaNomeArquivoJson(numeroSemana));
+            return string.Format(PADRAO_NOME_JSON, ano, numeroSemana);
+        }
+
+        private string RecuperaCaminhoCompleto(string numeroSemana, string ano)
+        {
+            return string.Format(@"{0}\{1}", CAMINHO_JSON, RecuperaNomeArquivoJson(numeroSemana, ano));
         }
 
         #endregion

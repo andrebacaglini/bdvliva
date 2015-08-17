@@ -2,25 +2,30 @@
     ViewBag.Title = "About";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@if (!User.Identity.IsAuthenticated)
-{
-    <div class="jumbotron">
-        <h1>Bem vindo!</h1>
-        <p>Utilize este portal para realizar seus pedidos de pão de queijo e saber mais como funciona.</p>        
-        <p>Portanto, @Html.ActionLink("entre", "Login", "Account") no sistema para mais informações e realizar o pedido.</p>        
+@*<div class="alert alert-danger" role="alert">
+    <div class="row">
+        <div class="col-md-2">
+            <img src="~/Content/img/warningM.png" alt="Warning" class="img-responsive" style="margin: 20px auto" />
+        </div>
+        <div class="col-md-10">
+            <h2>Atenção!</h2>
+            <p>A partir de <b>Fevereiro de 2015</b>, o valor do Pão de Queijo da Vovó sofrerá um pequeno aumento devido as atuais circunstâncias econômicas.</p>
+            <p>O valor será de <b>R$ 2,00.</b></p>
+            <p><b>Obrigado pela compreensão.</b></p>
+        </div>
     </div>
-}else{
-    <div class="jumbotron">
-        <h1>Como funciona?</h1>
-        <p>É bem simples!</p>
-        <p>Toda <span class="label label-primary">sexta-feira</span> eu, André Bacaglini, trago pães de queijo quentinhos para tomarmos um bom café da manhã!</p>
-        <p>Mas para isso, eu preciso coletar o pedido de todos os interessados até <span class="label label-info">quinta-feria.</span></p>        
-        <p>O valor é baratinho! Apenas <span class="label label-success">R$ 1,50.</span></p>
-        <p>É muito importante que você <span class="label label-danger">garanta</span> seu pedido, pois os pães de queijo são contados!</p>
-        <p>Também vale lembrar que os pedidos só podem ser realizados entre as <span class="label label-danger">8</span> e as <span class="label label-danger">17</span> horas</p>
-        <p>Portanto, para realizar seu pedido, basta clicar @Html.ActionLink("aqui", "Index", "PaoDeQueijo").</p>
-        <p>Não esqueça de <span class="label label-default">avisar</span> os colegas sobre esse detalhe.</p>
-        <p><span class="label label-warning">OBS:</span> Peço a gentileza de quem se interessar e realizar o pedido, trazer o dinheiro trocado para agilizar a fila!</p>
-        <p>Obrigado!</p>
-    </div>
-}
+</div>*@
+<div class="jumbotron">
+    <h1>Como funciona?</h1>
+    <p>É bem simples!</p>
+    <p>Toda <span class="label label-primary">sexta-feira</span> eu, André Bacaglini, trago pães de queijo quentinhos para tomarmos um bom café da manhã!</p>
+    <p>Mas para isso, eu preciso coletar o pedido de todos os interessados até <span class="label label-info">quinta-feira.</span></p>
+    <p>O valor é baratinho! Apenas <span class="label label-success">R$ 2,00.</span></p>
+    <p>É muito importante que você <span class="label label-danger">garanta</span> seu pedido, pois os pães de queijo são contados!</p>
+    <p>Também vale lembrar que os pedidos só podem ser realizados entre as <span class="label label-danger">8</span> e as <span class="label label-danger">17</span> horas</p>
+    <p>Portanto, para realizar seu pedido, basta clicar @Html.ActionLink("aqui", "Index", "PaoDeQueijo").</p>
+    <p>Não esqueça de <span class="label label-default">avisar</span> os colegas sobre esse detalhe.</p>
+    <p><span class="label label-warning">OBS:</span> Peço a gentileza de quem se interessar e realizar o pedido, trazer o dinheiro trocado para agilizar a fila!</p>
+    <p>Obrigado!</p>
+</div>
+

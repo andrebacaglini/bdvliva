@@ -160,8 +160,9 @@ namespace Br.Com.BiscoitinhosVovoLiva.Servico.LDAP
             var grupos = _config.Grupos.Cast<ActiveDirectoryGrupoElement>();
 
             List<SearchResult> registros = null;
+            
             try
-            {
+            {                
                 registros = grupos
                     .Select(grp => PesquisarRegistro(_servidorConsulta, filtro, grp.Nome))
                     .ToList();
@@ -169,7 +170,7 @@ namespace Br.Com.BiscoitinhosVovoLiva.Servico.LDAP
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw ex;                
             }
 
             if (registros == null || registros.All(reg => reg == null))

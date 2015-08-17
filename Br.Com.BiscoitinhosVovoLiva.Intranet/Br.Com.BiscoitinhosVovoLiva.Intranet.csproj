@@ -143,6 +143,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BiscoitinhoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PaoDeQueijoController.cs" />
     <Compile Include="Global.asax.cs">
@@ -160,6 +161,9 @@
     <Content Include="Content\css\carousel.css" />
     <Content Include="Content\css\grayscale.css" />
     <Content Include="Content\css\jquery.bootgrid-1.1.0\jquery.bootgrid.css" />
+    <Content Include="Content\img\favicon.ico" />
+    <Content Include="Content\img\folder_biscoitinhos400x507.png" />
+    <Content Include="Content\img\folder_pdq400x507.png" />
     <Content Include="Content\img\Lighthouse140x140.png" />
     <Content Include="Content\img\Penguins140x140bw.jpg" />
     <Content Include="Content\img\loading.gif" />
@@ -169,6 +173,8 @@
     <Content Include="Content\img\Lighthouse.jpg" />
     <Content Include="Content\img\Penguins.jpg" />
     <Content Include="Content\img\Penguins140x140.jpg" />
+    <Content Include="Content\img\warningL.png" />
+    <Content Include="Content\img\warningM.png" />
     <Content Include="Global.asax" />
     <Content Include="Content\bootstrap-3.2.0\css\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap-3.2.0\css\bootstrap.css.map" />
@@ -202,6 +208,7 @@
     <Content Include="Views\Shared\AcessoNegado.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\PaoDeQueijo\About.cshtml" />
+    <Content Include="Views\Biscoitinho\About.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -249,7 +256,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49784</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/PaoDeQueijo/</IISUrl>
+          <IISUrl>http://localhost/portaldavovo</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

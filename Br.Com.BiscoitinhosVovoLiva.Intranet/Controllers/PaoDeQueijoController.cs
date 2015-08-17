@@ -41,6 +41,11 @@ namespace Br.Com.BiscoitinhosVovoLiva.Intranet.Controllers
             return View();
         }
 
+        public ActionResult About()
+        {
+            return View();
+        }
+
         #endregion
 
         #region Ajax

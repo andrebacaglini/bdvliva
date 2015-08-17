@@ -8,7 +8,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
+    <title>Portal da Vovó</title>
+    <link rel="shortcut icon" href="~/Content/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="~/Content/img/favicon.ico" type="image/x-icon">
 
     @Styles.Render("~/bundles/bootstrap/css")
     @Styles.Render("~/bundles/css")
@@ -20,7 +22,7 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    @Scripts.Render("~/bundles/jquery/js")    
+    @Scripts.Render("~/bundles/jquery/js")
 </head>
 
 <body>
@@ -60,24 +62,40 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        @Html.ActionLink("Pão de Queijo", "Index", "Home", null, new { @class = "navbar-brand" })
+                        @Html.ActionLink("Portal da Vovó", "Index", "Home", null, new { @class = "navbar-brand" })
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                            <li>
-                                @if (User.Identity.IsAuthenticated)
-                                {
-                                    @Html.ActionLink("Realizar Pedido", "Index", "PaoDeQueijo")
-                                }
-                            </li>
-                            <li>
-                                @if (string.Equals(User.Identity.Name, "andre.bacaglini"))
-                                {
-                                    @Html.ActionLink("Pedidos", "Pedidos", "PaoDeQueijo")
-                                }
-                            </li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pão de Queijo <span class="caret"></span></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li>@Html.ActionLink("Como funciona?", "About", "PaoDeQueijo")</li>
+                                        <li>@Html.ActionLink("Realizar Pedido", "Index", "PaoDeQueijo")</li>
+                                        @if (string.Equals(User.Identity.Name, "andre.bacaglini"))
+                                        {
+                                            <li class="divider"></li>
+                                            <li>@Html.ActionLink("Consultar Pedidos", "Pedidos", "PaoDeQueijo")</li>
+                                        }
+                                    </ul>
+                                </li>
+                                        //TODO: Verificar se o usuario acessou o portão do pão de queijo ou dos biscoitos
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Biscoitinhos <span class="caret"></span></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li>@Html.ActionLink("Como funciona?", "About", "Biscoitinho")</li>
+                                        @*<li>@Html.ActionLink("Realizar Pedido", "Index", "Biscoitinho")</li>*@
+                                        @if (string.Equals(User.Identity.Name, "andre.bacaglini"))
+                                        {
+                                            <li class="divider"></li>
+                                            <li>@Html.ActionLink("Consultar Pedidos", "Pedidos", "Biscoitinho")</li>
+                                        }
+                                    </ul>
+                                </li>
+                            }
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li>
@@ -121,6 +139,11 @@
             CriaDivCarregando();
         }).ajaxStop(function () {
             $('#load').remove();
+        }).ajaxError(function (event, jqXHR, ajaxSettings, thrownError) {
+            console.log("AJAX_ERROR", event);
+            console.log("AJAX_ERROR", jqXHR);
+            console.log("AJAX_ERROR", ajaxSettings);
+            console.log("AJAX_ERROR", thrownError);
         });
 
         //cria o css para a imagem de carregando.

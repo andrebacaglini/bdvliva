@@ -2,16 +2,41 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="col-md-4"></div>
-<div class="col-md-4">
-    <svg xmlns="http://www.w3.org/2000/svg" id="svgroot" viewBox="0 0 140 140" width="140" height="140">
-        <defs>
-            <filter id="filtersPicture">
-                <feComposite result="inputTo_38" in="SourceGraphic" in2="SourceGraphic" operator="arithmetic" k1="0" k2="1" k3="0" k4="0" />
-                <feColorMatrix id="filter_38" type="saturate" values="0" data-filterid="38" />
-            </filter>
-        </defs>
-        <image filter="url(&quot;#filtersPicture&quot;)" x="0" y="0" width="140" height="140" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="~/Content/img/Lighthouse140x140.png" />
-    </svg>
+<div class="jumbotron">
+    <h1>Bem vindo ao Portal da Vovó!</h1>
+    <p>Utilize este portal para realizar seus pedidos de <span class="label label-warning">Pão de Queijo</span> e/ou dos <span class="label label-danger">Biscotinhos</span>!</p>
+    <p>Basta acessar qual produto você deseja, fazer o login e realizar seu pedido!</p>
+    <div class="container">
+        <div class="col-md-5">
+
+            <a href='@Url.Action("About", "PaoDeQueijo")'>
+                <svg xmlns="http://www.w3.org/2000/svg" id="svgPdq" viewBox="0 0 400 507" width="400" height="507">
+                    <defs>
+                        <filter id="filtersPdq">
+                            <feComposite result="inputTo_38" in="SourceGraphic" in2="SourceGraphic" operator="arithmetic" k1="0" k2="1" k3="0" k4="0" />
+                            <feColorMatrix id="filterpdq_38" type="saturate" values="0" data-filterid="38" />
+                        </filter>
+                    </defs>
+                    <image filter="url(&quot;#filtersPdq&quot;)" x="0" y="0" width="400" height="507" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="~/Content/img/folder_pdq400x507.png" />
+                </svg>
+            </a>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-5">
+            <a href='@Url.Action("About", "Biscoitinho")'>
+                <svg xmlns="http://www.w3.org/2000/svg" id="svgBiscoito" viewBox="0 0 400 507" width="400" height="507">
+                    <defs>
+                        <filter id="filtersBiscoito">
+                            <feComposite result="inputTo_38" in="SourceGraphic" in2="SourceGraphic" operator="arithmetic" k1="0" k2="1" k3="0" k4="0" />
+                            <feColorMatrix id="filterbiscoito_38" type="saturate" values="0" data-filterid="38" />
+                        </filter>
+                    </defs>
+                    <image filter="url(&quot;#filtersBiscoito&quot;)" x="0" y="0" width="400" height="507" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="~/Content/img/folder_biscoitinhos400x507.png" />
+                </svg>
+            </a>
+        </div>
+
+    </div>
 </div>
-<div class="col-md-4"></div>
+
+

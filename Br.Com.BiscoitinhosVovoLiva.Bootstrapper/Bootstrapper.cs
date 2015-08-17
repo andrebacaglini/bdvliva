@@ -1,11 +1,18 @@
 ﻿using System;
 using Autofac;
+using Autofac.Integration.Mvc;
 using Br.Com.BiscoitinhosVovoLiva.Bootstrapper.LogModule;
 using Br.Com.BiscoitinhosVovoLiva.Entidade;
+using Br.Com.BiscoitinhosVovoLiva.Entidade.Mapemanetos;
 using Br.Com.BiscoitinhosVovoLiva.RepositorioJSON;
+using Br.Com.BiscoitinhosVovoLiva.RepositorioSQLSERVER;
 using Br.Com.BiscoitinhosVovoLiva.Servico.Implementacoes;
 using Br.Com.BiscoitinhosVovoLiva.Servico.LDAP;
+using FluentNHibernate.Cfg;
+using FluentNHibernate.Cfg.Db;
 using log4net;
+using NHibernate;
+using NHibernate.Cfg;
 
 namespace Br.Com.BiscoitinhosVovoLiva.Bootstrapper
 {
@@ -17,6 +24,21 @@ namespace Br.Com.BiscoitinhosVovoLiva.Bootstrapper
             {
                 //Inicializar o container
                 var builder = new ContainerBuilder();
+
+                #region Fluent
+                //Registra no container a sessão do Fluent de acordo com a conexão e definido o contexto da sessão.
+                builder.Register(x => GetSessionFactory("thread_static", "ConexaoSQLSERVER"))
+                    .SingleInstance();
+                #endregion
+
+                #region ISession
+                builder.Register(x =>
+                {
+                    var session = x.Resolve<ISessionFactory>().OpenSession();
+                    session.FlushMode = FlushMode.Commit;
+                    return session;
+                }).InstancePerHttpRequest().OnRelease(x => x.Dispose());
+                #endregion
 
                 #region Entidades
 
@@ -31,10 +53,17 @@ namespace Br.Com.BiscoitinhosVovoLiva.Bootstrapper
                 #region Repositorios
 
                 // Registrando os repositórios implementados com JSON.
-                var dataAccess = typeof(RepositorioJSON<>).Assembly;
-                builder.RegisterAssemblyTypes(dataAccess)
+                var repositorioJSON = typeof(RepositorioJSON<>).Assembly;
+                builder.RegisterAssemblyTypes(repositorioJSON)
                     .Where(t => t.Name.EndsWith("Repositorio"))
                     .AsImplementedInterfaces();
+
+                // Registrando os repositórios implementados para SQLSERVER.
+                var repositorioSQLSERVER = typeof(RepositorioSQLSERVER<>).Assembly;
+                builder.RegisterAssemblyTypes(repositorioSQLSERVER)
+                    .Where(t => t.Name.EndsWith("Repositorio"))
+                    .AsImplementedInterfaces()
+                    .PropertiesAutowired();
 
                 #endregion
 
@@ -68,6 +97,18 @@ namespace Br.Com.BiscoitinhosVovoLiva.Bootstrapper
             {
                 throw;
             }
+        }
+
+        public static ISessionFactory GetSessionFactory(string currentSessionContextClass, string connectionStringKey)
+        {
+            return Fluently.Configure()
+                .Database(
+                    MsSqlConfiguration.MsSql2008.ShowSql()
+                    .ConnectionString(c => c.FromConnectionStringWithKey(connectionStringKey)))
+                    .Mappings(m => m.FluentMappings.AddFromAssembly(typeof(PedidoMap).Assembly))
+                    .ExposeConfiguration(x => x.SetProperty(NHibernate.Cfg.Environment.CurrentSessionContextClass, currentSessionContextClass))
+                    .Cache(x => x.UseQueryCache())
+                    .BuildSessionFactory();
         }
     }
 }
